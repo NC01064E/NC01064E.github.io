@@ -338,3 +338,21 @@ footer {
     .nav-links { gap: 16px; }
     .nav-links a { font-size: 0.8rem; }
 }
+
+/* === CivicOS === */
+.civicos-header {
+    background: linear-gradient(135deg, #1a2f1a 0%, #2d5a3d 100%);
+}
+.org-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+}
+.bio-block, .mission-block, .build-block, .story-block { margin-bottom: 48px; }
+.bio-block p { margin-bottom: 14px; color: var(--text-light); font-size: 1.02rem; }
+.bio-block h2, .mission-block h2, .build-block h2, .story-block h2 { margin-bottom: 20px; color: var(--navy); }
+.sig { margin-top: 20px; font-style: italic; color: var(--blue); font-family: 'Playfair Display', serif; }
+.contact-links p { margin-bottom: 8px; }
+.contact-section { margin-bottom: 32px; }
