@@ -688,6 +688,21 @@ nav {
     border-color: var(--ember);
 }
 
+.family-card.child-of-sophia {
+    position: relative;
+    margin-left: 24px;
+}
+
+.family-card.child-of-sophia::before {
+    content: "↳";
+    position: absolute;
+    left: -22px;
+    top: 22px;
+    color: var(--ember);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
 .family-mark {
     width: 40px;
     height: 40px;
