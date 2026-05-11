@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nicholas Cerbone — Family &amp; Professional</title>
+    <meta name="description" content="Nicholas A. Cerbone is a South Florida educator, father of nine, grandfather, public-service professional, author, and founder of CivicOS Institute.">
+    <title>Nicholas Cerbone - Family, Classroom, Civic Tech</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
         <div class="nav-inner">
-            <a href="index.html" class="logo">NC</a>
+            <a href="index.html" class="logo" aria-label="Nicholas Cerbone home">NC</a>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="about.html">About</a>
@@ -24,31 +26,54 @@
 
     <header class="hero">
         <div class="container">
-            <h1>Nicholas A. Cerbone</h1>
-            <p class="tagline">Educator. Leader. Father of Nine.</p>
-            <div class="hero-links">
-                <a href="about.html" class="btn btn-primary">About Me</a>
-                <a href="family.html" class="btn btn-secondary">The Cerbone Family</a>
-                <a href="resume.html" class="btn btn-secondary">Professional Profile</a>
-                <a href="civicos.html" class="btn btn-secondary">CivicOS Institute</a>
-                <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-secondary">The Open Source Student</a>
+            <div class="hero-content">
+                <p class="eyebrow">Palm Beach County / Family / Classroom / Civic Tech</p>
+                <h1>Nicholas A. Cerbone</h1>
+                <p class="tagline">Father of nine. New grandfather. Educator, builder, and public-service lifer in South Florida.</p>
+
+                <div class="announcement">
+                    <div class="announcement-date">Apr 29<br>2026</div>
+                    <div>
+                        <span class="notice-label">Family news</span>
+                        <p>Our family welcomed a new grandchild on April 29, 2026. I am grateful, humbled, and still a little amazed by the way a family keeps finding new ways to grow.</p>
+                    </div>
+                </div>
+
+                <div class="hero-links">
+                    <a href="family.html" class="btn btn-primary">Family</a>
+                    <a href="resume.html" class="btn btn-secondary">Professional</a>
+                    <a href="civicos.html" class="btn btn-secondary">CivicOS</a>
+                    <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-secondary">Book</a>
+                </div>
             </div>
         </div>
     </header>
 
     <section class="intro">
         <div class="container">
-            <div class="grid two-col">
+            <div class="section-head">
+                <div>
+                    <p class="section-label">A life in a few lines</p>
+                    <h2>Family first. Useful work. Keep showing up.</h2>
+                </div>
+                <p>I have spent my adult life in the practical places where people need steadiness: court offices, retail operations, classrooms, and a very full home. These days my work sits at the intersection of teaching, family, and building open civic tools that ordinary people can actually use.</p>
+            </div>
+
+            <div class="grid three-col">
                 <div class="card">
-                    <h2>Who I Am</h2>
-                    <p>A dedicated educator and operations professional based in South Florida. Substitute teacher for the School District of Palm Beach County with seven years of court operations experience, retail management, and independent insurance adjusting.</p>
-                    <p>Father of nine. Committed to family, faith, education, and continuous growth.</p>
-                    <a href="about.html" class="link-arrow">Read more →</a>
+                    <h3>Family</h3>
+                    <p>Nine children taught me that love is not mainly a feeling. It is logistics, patience, prayer, homework, rides, apologies, and showing up again tomorrow.</p>
+                    <a href="family.html" class="link-arrow">Meet the family</a>
                 </div>
                 <div class="card">
-                    <h2>The Cerbone Family</h2>
-                    <p>Nine children, a blended family, and a life built on structure, Catholic values, and showing up every day. This is our story — the challenges, the victories, and the everyday moments that make a family.</p>
-                    <a href="family.html" class="link-arrow">Meet the family →</a>
+                    <h3>Classroom</h3>
+                    <p>I substitute teach across Palm Beach County schools, often in long-term placements. It is honest work: learn the room, keep order, help students move one step forward.</p>
+                    <a href="resume.html" class="link-arrow">Professional profile</a>
+                </div>
+                <div class="card">
+                    <h3>CivicOS</h3>
+                    <p>CivicOS grew out of a simple frustration: public systems should be understandable, inspectable, and built for the people who live under them.</p>
+                    <a href="civicos.html" class="link-arrow">What I am building</a>
                 </div>
             </div>
         </div>
@@ -57,11 +82,13 @@
     <section class="book-cta">
         <div class="container">
             <div class="book-cta-card">
-                <p class="eyebrow">Now available</p>
-                <h2>The Open Source Student</h2>
-                <p>A practical guide for students and families who want to stop renting AI and start building useful tools they control. The Founders Complete Edition is available now for $9.99, with proceeds supporting CivicOS Institute.</p>
+                <div>
+                    <p class="eyebrow">Now available</p>
+                    <h2>The Open Source Student</h2>
+                    <p>A practical guide for families and students who want to understand AI instead of simply renting it. It is written for the person at the kitchen table who wants to learn, build, and stay in control of their tools.</p>
+                </div>
                 <div class="book-cta-actions">
-                    <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-primary">Buy on Amazon Kindle</a>
+                    <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-primary">Buy on Kindle</a>
                     <a href="https://civicos-institute.org/ebook/" class="btn btn-secondary dark">Learn more</a>
                 </div>
             </div>
@@ -72,16 +99,16 @@
         <div class="container">
             <div class="grid three-col">
                 <div class="stat-card">
-                    <span class="stat-number">7+</span>
-                    <span class="stat-label">Years Court Operations</span>
-                </div>
-                <div class="stat-card">
                     <span class="stat-number">9</span>
                     <span class="stat-label">Children</span>
                 </div>
                 <div class="stat-card">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">New Grandchild</span>
+                </div>
+                <div class="stat-card">
                     <span class="stat-number">20+</span>
-                    <span class="stat-label">Years in Public Service</span>
+                    <span class="stat-label">Years Public Service & Operations</span>
                 </div>
             </div>
         </div>
