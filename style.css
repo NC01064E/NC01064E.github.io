@@ -114,6 +114,38 @@ nav {
 
 /* === Sections === */
 .intro, .highlights, .content { padding: 60px 0; }
+.book-cta { padding: 0 0 60px; }
+.book-cta-card {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    color: var(--white);
+    padding: 42px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+.book-cta-card h2 {
+    font-size: 2rem;
+    margin-bottom: 14px;
+    color: var(--white);
+}
+.book-cta-card p {
+    max-width: 760px;
+    margin: 0 auto 18px;
+    color: rgba(255,255,255,0.78);
+}
+.eyebrow {
+    color: var(--gold) !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+.book-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+.btn-secondary.dark {
+    color: var(--white);
+    border-color: rgba(255,255,255,0.35);
+}
+.btn-secondary.dark:hover { border-color: var(--gold); color: var(--gold); }
 
 .page-header {
     background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
