@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nick Cerbone Diary</title>
+    <link>https://cerbone.me/diary.html</link>
+    <atom:link href="https://cerbone.me/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Personal diary and blog posts by Nick Cerbone.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 May 2026 05:02:59 GMT</lastBuildDate>
+    <item>
+      <title>Notes on an Incident</title>
+      <link>https://cerbone.me/notes-on-an-incident.html</link>
+      <guid isPermaLink="true">https://cerbone.me/notes-on-an-incident.html</guid>
+      <pubDate>Tue, 12 May 2026 05:00:00 GMT</pubDate>
+      <description>Instructure calls it an incident. The students are calling it finals week.</description>
+    </item>
+    <item>
+      <title>Public Data Is Not Public</title>
+      <link>https://cerbone.me/public-data-is-not-public.html</link>
+      <guid isPermaLink="true">https://cerbone.me/public-data-is-not-public.html</guid>
+      <pubDate>Mon, 11 May 2026 04:00:00 GMT</pubDate>
+      <description>Public information is often legally available and practically unreachable.</description>
+    </item>
+  </channel>
+</rss>
