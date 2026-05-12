@@ -1114,3 +1114,39 @@ footer p {
         position: static;
     }
 }
+
+
+/* === Individual Diary Posts === */
+.narrow-container {
+    max-width: 880px;
+}
+
+.post-body {
+    padding: 34px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(13, 11, 10, 0.84);
+}
+
+.post-body p {
+    color: var(--paper);
+    font-size: 1.06rem;
+    line-height: 1.85;
+}
+
+.post-body p + p {
+    margin-top: 20px;
+}
+
+.post-back {
+    margin-top: 24px;
+}
+
+.diary-entry h2 a {
+    color: var(--paper);
+    text-decoration: none;
+}
+
+.diary-entry h2 a:hover {
+    color: var(--gold);
+}
