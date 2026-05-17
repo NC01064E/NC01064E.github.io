@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Nick Cerbone Diary</title>
     <link>https://cerbone.me/diary.html</link>
     <atom:link href="https://cerbone.me/feed.xml" rel="self" type="application/rss+xml" />
     <description>Personal diary and blog posts by Nick Cerbone.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2026 05:06:31 GMT</lastBuildDate>
-    <item>
+    <lastBuildDate>Sun, 17 May 2026 04:03:09 GMT</lastBuildDate>
+    <item><title>He Has Gone Before Us: Reflections for the Solemnity of the Ascension</title><link>https://cerbone.me/ascension-sunday-blog-post.html</link><guid isPermaLink="true">https://cerbone.me/ascension-sunday-blog-post.html</guid><pubDate>Sun, 17 May 2026 04:03:00 GMT</pubDate><description>A reflection for Ascension Sunday, May 17, 2026.</description></item><item>
       <title>A Miracle of Faith: Sts. Nereus and Achilleus</title>
       <link>https://cerbone.me/a-miracle-of-faith-nereus-and-achilleus.html</link>
       <guid isPermaLink="true">https://cerbone.me/a-miracle-of-faith-nereus-and-achilleus.html</guid>
