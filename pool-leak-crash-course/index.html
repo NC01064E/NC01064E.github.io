@@ -1227,7 +1227,7 @@
     <section class="workspace" id="modules" aria-label="Course modules">
       <aside class="module-rail" aria-labelledby="module-list-title">
         <div class="rail-heading">
-          <h2 id="module-list-title">10 modules</h2>
+          <h2 id="module-list-title">Course modules</h2>
           <button class="text-button" type="button" id="markCurrent"><i data-lucide="check" class="icon" aria-hidden="true"></i>Done</button>
         </div>
         <div class="module-list" id="moduleList"></div>
@@ -1265,6 +1265,8 @@
             <option value="returns">Bubbles appear from return jets</option>
             <option value="light">Water loss slows near the pool light</option>
             <option value="rain">Pool lost water after hot, windy days</option>
+            <option value="openCrack">Open crack with possible water movement</option>
+            <option value="hollowFinish">Hollow-sounding plaster area or pop-off</option>
           </select>
         </div>
         <div class="result-box" id="triageResult"></div>
@@ -1289,17 +1291,17 @@
       <article class="quiz-panel">
         <p class="eyebrow">Knowledge check</p>
         <h2><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Interview Readiness Quiz</h2>
-        <p>Answer the questions without looking at the modules. A strong interview target is 8 or better.</p>
+        <p>Answer the questions without looking at the modules. A strong interview target is 10 or better.</p>
         <div id="quizQuestions"></div>
       </article>
       <aside class="quiz-panel">
         <div class="quiz-score">
-          <strong id="quizScoreLarge">0/10</strong>
+          <strong id="quizScoreLarge">0/12</strong>
           <p id="quizMessage">Answer the quiz to see your readiness.</p>
         </div>
         <div class="callout gold" style="margin-top: 16px;">
-          <strong>Five facts to memorize</strong>
-          <p>Pools evaporate. Bucket tests separate evaporation from leaks. Pressure testing checks plumbing. Dye testing confirms visible leak points. Good techs think like detectives.</p>
+          <strong>Six facts to memorize</strong>
+          <p>Pools evaporate. Bucket tests separate evaporation from leaks. Pressure testing checks plumbing. Dye testing confirms visible leak points. Shell and finish defects are different repair conversations. Good techs think like detectives.</p>
         </div>
       </aside>
     </section>
@@ -1336,6 +1338,18 @@
         <li>
           <strong><a href="https://www.leaktools.com/pressure-test-plumbing.html">Anderson Manufacturing: Pressure Test Plumbing</a></strong>
           <p>Used for pressure testing as a process-of-elimination method for structure vs. plumbing leaks.</p>
+        </li>
+        <li>
+          <strong><a href="https://www.nationalplastererscouncil.com/faq/">National Plasterers Council: Pool Plaster FAQ</a></strong>
+          <p>Used for generic plaster/finish concepts: cracking classes, bonding, delamination, spalls, chemistry, and repair judgment.</p>
+        </li>
+        <li>
+          <strong><a href="https://www.pooleng.com/procedures-for-minor-gunite-or-shotcrete-repair-in-swimming-pools-2/">Pool Engineering: Minor Gunite or Shotcrete Repair</a></strong>
+          <p>Used for generic shell repair concepts: sounding, removing weak material, roughening, cleaning, and bonding to sound substrate.</p>
+        </li>
+        <li>
+          <strong><a href="https://www.nptpool.com/pool-finishes/start-up-procedure/">NPT: Pool Finish Startup Procedure</a></strong>
+          <p>Used for startup concepts after new plaster: fill discipline, brushing, water balance, and the 28-day care window.</p>
         </li>
       </ul>
     </section>
@@ -1529,6 +1543,58 @@
         visual: "hotspots"
       },
       {
+        title: "Concrete and Gunite Shell Repair Basics",
+        time: "9 min",
+        badge: "Repair literacy",
+        summary: "Concrete, gunite, and shotcrete pools have a structural shell under the interior finish. Repair thinking starts by deciding whether the issue is structural shell movement, weak material, or only surface finish distress.",
+        phrase: "I know a concrete or gunite repair starts with diagnosis: is this a surface finish issue, a bond failure, weak shell material, or a structural crack that needs a trained repair approach?",
+        bullets: [
+          "Gunite and shotcrete are pneumatically placed concrete materials used to form pool shells over steel reinforcement.",
+          "Shell problems can show up as open cracks, recurring leaks, hollow-sounding areas, exposed reinforcement, rust staining, or movement around steps, benches, bond beams, and fittings.",
+          "Sounding is a common concept: solid areas tend to ring differently than hollow, weak, or debonded areas when checked by a trained technician.",
+          "Weak or unsuitable material should not be buried under a cosmetic patch. Sound repair preparation means removing loose or deteriorated material and reaching sound substrate.",
+          "Structural crack repair is not the same as smearing sealant over a crack. It may require engineering judgment, staples, injection systems, waterproofing details, or shell reconstruction depending on severity."
+        ],
+        thinking: [
+          "Separate cosmetic symptom from structural cause.",
+          "A leak at a crack should trigger both leak thinking and structural thinking.",
+          "The interview-safe answer is: I would follow company procedure and escalate structural concerns rather than freelancing a repair."
+        ],
+        quiz: {
+          q: "What is the key distinction in concrete or gunite repair thinking?",
+          options: ["Surface finish issue versus shell/structural issue", "Blue pool versus green pool", "Whether the pool has a ladder"],
+          answer: 0,
+          why: "The repair path depends on whether the defect is in the finish layer, the bond, or the structural shell."
+        },
+        visual: "shellRepair"
+      },
+      {
+        title: "Pool Finish and Plaster Repair Basics",
+        time: "10 min",
+        badge: "Finish repair",
+        summary: "The finish is the visible interior surface: plaster, quartz, pebble, exposed aggregate, or similar cementitious coatings. Finish repair depends on bond, chemistry, prep, cure, color expectations, and whether the damage is local or widespread.",
+        phrase: "For pool finish repair, I would think about bond, surface preparation, compatible material, curing/startup, and whether the customer needs a spot repair or a larger resurfacing conversation.",
+        bullets: [
+          "Common finish issues include check cracks, open cracks, etching, scaling, stains, blisters, spalls, delamination, hollow spots, and roughness.",
+          "Delamination means the finish has separated within itself or from the substrate. Small isolated areas may be patched; widespread hollow areas often point toward resurfacing evaluation.",
+          "A durable patch is about preparation, not just material. The repair area should be clean, sound, properly roughened, and compatible with the coating system.",
+          "Color and texture matching are hard. A good customer explanation sets expectations that a patch may stop a defect without becoming invisible.",
+          "Fresh plaster needs careful startup: continuous fill, brushing, balanced water, plaster dust control, and a roughly 28-day early-care window."
+        ],
+        thinking: [
+          "Do not promise a perfect color match on aged finish.",
+          "Ask whether the issue is isolated or widespread before recommending patch versus resurfacing.",
+          "Connect repair quality to prep, bond, cure, and water chemistry."
+        ],
+        quiz: {
+          q: "Why is a plaster patch not just a cosmetic smear?",
+          options: ["Bond, prep, material compatibility, and curing affect whether it lasts", "Any patch automatically matches forever", "Water chemistry does not matter"],
+          answer: 0,
+          why: "Finish repairs depend on preparation, bond, compatible materials, curing/startup, and later water balance."
+        },
+        visual: "finishRepair"
+      },
+      {
         title: "Customer Psychology",
         time: "8 min",
         badge: "Trust",
@@ -1587,7 +1653,7 @@
         summary: "The final step is sounding natural. Use trade terms accurately, then connect them to how you think and work.",
         phrase: "Leak detection appeals to me because it is hands-on diagnostic work with a customer-service component: find the root cause, explain it clearly, and help the customer move toward a solution.",
         bullets: [
-          "Core terms: leak detection, pressure testing, dye testing, plumbing isolation, return line, suction line, skimmer, main drain, equipment pad, structural leak, evaporation loss.",
+          "Core terms: leak detection, pressure testing, dye testing, plumbing isolation, return line, suction line, skimmer, main drain, equipment pad, structural leak, evaporation loss, gunite, delamination, spall, and startup.",
           "Use vocabulary only when it helps. Forced jargon sounds worse than plain English.",
           "Prepare one answer for interest, one for customer conflict, one for learning a new trade, and one for physical field work.",
           "Ask smart questions: What does training look like? What makes a new technician successful? How are findings documented? What KPIs matter?",
@@ -1616,7 +1682,11 @@
       ["Structural leak", "A leak in the pool shell, skimmer area, light niche, fitting, crack, or other pool structure."],
       ["Equipment pad", "The area where pump, filter, heater, valves, unions, and related equipment are located."],
       ["Evaporation loss", "Water lost naturally to weather conditions rather than through a defect."],
-      ["Plumbing isolation", "Separating one line or system section so it can be tested without confusing results."]
+      ["Plumbing isolation", "Separating one line or system section so it can be tested without confusing results."],
+      ["Gunite", "A pneumatically applied concrete material commonly used to form reinforced pool shells."],
+      ["Delamination", "A bond or layer failure where finish material separates from itself or the substrate."],
+      ["Spall", "A lifted or broken-away upper finish layer, often related to bond, impact, drying, or chemistry issues."],
+      ["Startup", "The early care period after plastering when fill, brushing, water balance, and dust control protect the finish."]
     ];
 
     const quizQuestions = modules.map((module, index) => ({
@@ -1629,7 +1699,9 @@
       skimmer: ["Prioritize skimmer testing.", "If the water level drops to the skimmer and slows, the skimmer throat, face, or related suction line becomes a strong suspect."],
       returns: ["Think suction-side air or return plumbing clues.", "Bubbles at returns can be a clue that air is entering the system, often before the pump. The next step is careful equipment and line isolation, not guessing."],
       light: ["Check the light niche and conduit carefully.", "If loss slows near the light, the niche or conduit can be a suspect. This area needs safety-aware procedure and proper training."],
-      rain: ["Confirm with a bucket test.", "Hot, windy weather can cause real evaporation. I would avoid jumping to a leak conclusion without a bucket test or other confirmation."]
+      rain: ["Confirm with a bucket test.", "Hot, windy weather can cause real evaporation. I would avoid jumping to a leak conclusion without a bucket test or other confirmation."],
+      openCrack: ["Treat as leak plus shell concern.", "An open crack with water movement is not only a dye-test target. I would also think about whether the crack reflects shell movement and should be escalated under company repair procedure."],
+      hollowFinish: ["Think finish bond issue.", "A hollow-sounding or popped-off finish area points toward delamination, debonding, or spalling. The repair conversation is about prep, bond, patch limits, color match, and whether the issue is isolated or widespread."]
     };
 
     const scripts = {
@@ -1761,7 +1833,9 @@
         pressure: ["Gauge logic", "A sealed line that holds pressure is likely good under test. A dropping gauge points to a leak or setup issue."],
         customer: ["Bad vs. good", "Bad: You need repairs. Good: I pressure tested the return line, saw pressure loss, isolated the line, and recommend locating and repairing that line."],
         business: ["Business outcome", "The visit should move from diagnosis to confident repair options, not just a mysterious finding."],
-        vocab: ["Use terms naturally", "Vocabulary should make you clearer, not louder. Explain suction, return, structure, and plumbing in plain language."]
+        shellRepair: ["Shell versus surface", "A concrete or gunite crack can be a leak symptom and a structural clue. Repair thinking starts by deciding what layer has failed."],
+        finishRepair: ["Prep, bond, cure", "Pool finish repair depends on clean sound substrate, compatible material, proper bonding, realistic color expectations, and startup care."],
+        vocab: ["Use terms naturally", "Vocabulary should make you clearer, not louder. Explain suction, return, structure, finish, and plumbing in plain language."]
       };
       const card = cards[type] || ["Core concept", "Review the module notes and practice the interview phrase."];
       return `<div class="callout"><strong>${card[0]}</strong><p>${card[1]}</p></div>`;
@@ -1849,9 +1923,9 @@
 
       if (quizDone === 0) {
         quizMessage.textContent = "Answer the quiz to see your readiness.";
-      } else if (quizCorrect >= 8) {
+      } else if (quizCorrect >= 10) {
         quizMessage.textContent = "Strong interview footing. Keep the answer builder warm.";
-      } else if (quizCorrect >= 5) {
+      } else if (quizCorrect >= 7) {
         quizMessage.textContent = "Good start. Review the missed concepts once more.";
       } else {
         quizMessage.textContent = "Stay with the modules. The structure will click.";
