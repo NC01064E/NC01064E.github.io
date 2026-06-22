@@ -1,0 +1,2008 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="An interactive interview crash course for learning pool leak detection basics, technician logic, and customer communication.">
+  <link rel="canonical" href="https://cerbone.me/pool-leak-crash-course/">
+  <title>Pool Leak Detection Crash Course</title>
+  <style>
+    :root {
+      --ink: #17201f;
+      --muted: #5b6764;
+      --soft: #f6f4ed;
+      --paper: #fffdf7;
+      --line: #d9d3c3;
+      --red: #b3261e;
+      --red-dark: #7f1d18;
+      --teal: #0f766e;
+      --blue: #245b7a;
+      --gold: #b7791f;
+      --green: #277041;
+      --charcoal: #222826;
+      --shadow: 0 18px 48px rgba(23, 32, 31, 0.12);
+      --radius: 8px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--soft);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    a {
+      color: var(--red-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 68px;
+      padding: 12px clamp(16px, 4vw, 44px);
+      background: rgba(255, 253, 247, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      color: var(--paper);
+      background: var(--red);
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-button,
+    .text-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-button {
+      width: 38px;
+      padding: 0;
+    }
+
+    .text-button.primary {
+      color: var(--paper);
+      background: var(--red);
+      border-color: var(--red);
+      font-weight: 800;
+    }
+
+    .text-button.secondary {
+      color: var(--paper);
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+
+    .icon-button:hover,
+    .text-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--ink);
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+
+    .app-shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(18px, 4vw, 44px);
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .intro-main,
+    .readiness,
+    .module-rail,
+    .module-stage,
+    .tool-panel,
+    .quiz-panel,
+    .source-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-main {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      padding: clamp(24px, 4vw, 44px);
+    }
+
+    .pool-visual {
+      position: absolute;
+      right: clamp(16px, 3vw, 34px);
+      bottom: clamp(16px, 3vw, 30px);
+      width: min(440px, 46%);
+      min-width: 260px;
+      aspect-ratio: 1.55;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
+        #dff5f1;
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
+
+    .pool-visual::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 8px solid #f0e6ce;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.38), transparent 52%),
+        repeating-linear-gradient(160deg, rgba(36, 91, 122, 0.18) 0 8px, rgba(36, 91, 122, 0.06) 8px 16px),
+        #78c6d1;
+      box-shadow: inset 0 0 0 1px rgba(23, 32, 31, 0.15);
+    }
+
+    .pool-visual::after {
+      content: "";
+      position: absolute;
+      right: 22px;
+      top: 40px;
+      width: 72px;
+      height: 44px;
+      background: #f7f5ee;
+      border: 1px solid rgba(23, 32, 31, 0.18);
+      border-radius: 6px;
+      box-shadow:
+        -80px 84px 0 -24px #f7f5ee,
+        -82px 84px 0 -23px rgba(23, 32, 31, 0.18);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--red-dark);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 18px;
+      font-size: clamp(2.2rem, 7vw, 5.1rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .intro-copy {
+      max-width: 670px;
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.5vw, 1.16rem);
+    }
+
+    .goal-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      gap: 10px;
+      max-width: 380px;
+      margin-top: 24px;
+    }
+
+    .goal-chip {
+      min-height: 74px;
+      padding: 12px;
+      background: #f8f2e3;
+      border: 1px solid #e6d8b7;
+      border-radius: 7px;
+    }
+
+    .goal-chip strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 0.86rem;
+    }
+
+    .goal-chip span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    .readiness {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .readiness h2 {
+      margin-bottom: 2px;
+      font-size: 1.18rem;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 12px 10px;
+      background: #f7f5ee;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      text-align: center;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--ink);
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.2;
+    }
+
+    .progress-shell {
+      width: 100%;
+      height: 12px;
+      overflow: hidden;
+      background: #ece5d5;
+      border-radius: 999px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--red));
+      transition: width 0.25s ease;
+    }
+
+    .readiness-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .fact-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .fact-list li {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .fact-list i {
+      margin-top: 2px;
+      color: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .module-rail {
+      position: sticky;
+      top: 86px;
+      padding: 14px;
+    }
+
+    .rail-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 4px 2px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .rail-heading h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .module-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .module-button {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) 22px;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 62px;
+      padding: 10px;
+      color: var(--ink);
+      background: #fbfaf5;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .module-button:hover,
+    .module-button.active {
+      background: #f5ead4;
+      border-color: #d5b576;
+    }
+
+    .module-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .module-button.done .module-number {
+      background: var(--green);
+    }
+
+    .module-title {
+      display: block;
+      overflow: hidden;
+      font-size: 0.88rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .module-meta {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .module-stage {
+      min-height: 720px;
+      overflow: hidden;
+    }
+
+    .module-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+      gap: 20px;
+      padding: clamp(22px, 4vw, 36px);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.78), rgba(255,255,255,0.18)),
+        #fbf5e8;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .module-hero h2 {
+      margin-bottom: 10px;
+      font-size: clamp(1.8rem, 4vw, 3.1rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .module-summary {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .module-card {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      min-height: 180px;
+      padding: 16px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 8px;
+    }
+
+    .module-card span {
+      color: rgba(255,255,255,0.72);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .module-card strong {
+      font-size: 1.22rem;
+      line-height: 1.25;
+    }
+
+    .module-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+      font-size: 0.9rem;
+    }
+
+    .module-body {
+      display: grid;
+      gap: 20px;
+      padding: clamp(18px, 4vw, 34px);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .lesson-block,
+    .practice-card,
+    .scenario-card {
+      padding: 18px;
+      background: #fbfaf5;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .lesson-block h3,
+    .practice-card h3,
+    .scenario-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+    }
+
+    .lesson-block p,
+    .practice-card p,
+    .scenario-card p {
+      color: var(--muted);
+    }
+
+    .lesson-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .lesson-list li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 9px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .lesson-list i {
+      color: var(--teal);
+      margin-top: 2px;
+    }
+
+    .callout {
+      padding: 16px 18px;
+      background: #ecf6f3;
+      border: 1px solid #b9ddd3;
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+    }
+
+    .callout.red {
+      background: #fff1ed;
+      border-color: #efc1b6;
+      border-left-color: var(--red);
+    }
+
+    .callout.gold {
+      background: #fff7e8;
+      border-color: #efd39d;
+      border-left-color: var(--gold);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .callout p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .flow-diagram {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(96px, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      overflow-x: auto;
+      padding: 4px 0 8px;
+    }
+
+    .flow-node {
+      position: relative;
+      min-height: 112px;
+      padding: 14px;
+      background: #eef8f7;
+      border: 1px solid #b9ddd3;
+      border-radius: 8px;
+    }
+
+    .flow-node::after {
+      content: ">";
+      position: absolute;
+      top: 50%;
+      right: -12px;
+      width: 16px;
+      height: 16px;
+      color: var(--teal);
+      font-family: var(--mono);
+      font-weight: 800;
+      transform: translateY(-50%);
+    }
+
+    .flow-node:last-child::after {
+      content: "";
+    }
+
+    .flow-node strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .flow-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .hotspot-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .hotspot {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdf7;
+    }
+
+    .hotspot strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .hotspot small {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 3px 7px;
+      color: var(--paper);
+      background: var(--blue);
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+
+    .hotspot p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .decision-map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .decision-step {
+      min-height: 130px;
+      padding: 14px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 8px;
+    }
+
+    .decision-step:nth-child(2) {
+      background: var(--blue);
+    }
+
+    .decision-step:nth-child(3) {
+      background: var(--teal);
+    }
+
+    .decision-step:nth-child(4) {
+      background: var(--gold);
+    }
+
+    .decision-step:nth-child(5) {
+      background: var(--red-dark);
+    }
+
+    .decision-step span {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      opacity: 0.82;
+    }
+
+    .decision-step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .decision-step p {
+      margin: 0;
+      color: rgba(255,255,255,0.78);
+      font-size: 0.84rem;
+    }
+
+    .quiz-inline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .choice-button {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .choice-button:hover {
+      border-color: var(--teal);
+    }
+
+    .choice-button.correct {
+      background: #e9f7ed;
+      border-color: #8bc59e;
+    }
+
+    .choice-button.wrong {
+      background: #fff0ec;
+      border-color: #e4a296;
+    }
+
+    .choice-letter {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .tool-panel,
+    .quiz-panel,
+    .source-panel {
+      padding: 22px;
+    }
+
+    .tool-panel h2,
+    .quiz-panel h2,
+    .source-panel h2 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+      font-size: 1.28rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 40px;
+      padding: 9px 10px;
+      color: var(--ink);
+      background: #fffdf7;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 104px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.13);
+    }
+
+    .result-box {
+      min-height: 92px;
+      padding: 14px;
+      background: #f7f5ee;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+    }
+
+    .result-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    .flashcard {
+      display: grid;
+      align-content: center;
+      min-height: 210px;
+      padding: 20px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .flashcard span {
+      margin-bottom: 12px;
+      color: rgba(255,255,255,0.65);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .flashcard strong {
+      font-size: 1.8rem;
+      line-height: 1.05;
+    }
+
+    .flashcard p {
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .tool-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .quiz-score {
+      padding: 18px;
+      background: var(--charcoal);
+      color: var(--paper);
+      border-radius: 8px;
+    }
+
+    .quiz-score strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 2.4rem;
+      line-height: 1;
+    }
+
+    .quiz-score p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .quiz-question {
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .quiz-question:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .quiz-question h3 {
+      margin-bottom: 12px;
+      font-size: 1.02rem;
+    }
+
+    .interview-builder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .script-output {
+      min-height: 180px;
+      padding: 16px;
+      color: var(--paper);
+      background: var(--blue);
+      border-radius: 8px;
+    }
+
+    .script-output p {
+      margin-bottom: 10px;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .script-output strong {
+      display: block;
+      font-size: 1.04rem;
+      line-height: 1.45;
+    }
+
+    .source-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .source-list li {
+      padding: 14px;
+      background: #fbfaf5;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .source-list strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .source-list p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 40;
+      max-width: 330px;
+      padding: 13px 15px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 1080px) {
+      .intro,
+      .workspace,
+      .quiz-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .module-rail {
+        position: static;
+      }
+
+      .module-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .goal-strip {
+        padding-right: 0;
+      }
+
+      .pool-visual {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        margin-top: 24px;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .app-shell {
+        padding: 14px;
+      }
+
+      .intro-main {
+        min-height: 0;
+      }
+
+      .goal-strip,
+      .metric-row,
+      .content-grid,
+      .hotspot-grid,
+      .module-list,
+      .module-hero,
+      .field-grid,
+      .interview-builder,
+      .source-list {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-title {
+        white-space: normal;
+      }
+
+      h1 {
+        font-size: clamp(2.35rem, 14vw, 4rem);
+      }
+
+      .module-stage {
+        min-height: 0;
+      }
+
+      .module-button {
+        grid-template-columns: 36px minmax(0, 1fr) 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="Course home">
+      <div class="brand-mark">PL</div>
+      <div class="brand-text">
+        <p class="brand-title">Pool Leak Detection Crash Course</p>
+        <p class="brand-subtitle">Interview prep and accelerated learning</p>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="Course sections">
+      <a class="text-button" href="#modules"><i data-lucide="book-open" class="icon" aria-hidden="true"></i>Modules</a>
+      <a class="text-button" href="#tools"><i data-lucide="wrench" class="icon" aria-hidden="true"></i>Practice</a>
+      <a class="text-button" href="#quiz"><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Quiz</a>
+      <button class="icon-button" type="button" id="resetProgress" title="Reset progress" aria-label="Reset progress"><i data-lucide="rotate-ccw" class="icon" aria-hidden="true"></i></button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="intro" aria-labelledby="course-title">
+      <div class="intro-main">
+        <p class="eyebrow">Goal: sound informed, trainable, and useful</p>
+        <h1 id="course-title">Walk in thinking like a leak technician.</h1>
+        <p class="intro-copy">This crash course turns the outline into an interview-ready learning program. You do not need to become an expert overnight. You need a clear mental model, a few reliable phrases, and enough diagnostic logic to sound like someone who can be trained.</p>
+        <div class="top-actions">
+          <button class="text-button primary" type="button" id="startCourse"><i data-lucide="play" class="icon" aria-hidden="true"></i>Start course</button>
+          <a class="text-button secondary" href="#interview"><i data-lucide="message-square" class="icon" aria-hidden="true"></i>Practice answers</a>
+        </div>
+        <div class="goal-strip" aria-label="Learning goals">
+          <div class="goal-chip"><strong>Pool systems</strong><span>Know the water path and main equipment.</span></div>
+          <div class="goal-chip"><strong>Leak logic</strong><span>Confirm, isolate, narrow, verify, explain.</span></div>
+          <div class="goal-chip"><strong>Core tests</strong><span>Bucket, dye, pressure, and observation.</span></div>
+          <div class="goal-chip"><strong>Customer trust</strong><span>Translate findings without sounding vague.</span></div>
+        </div>
+        <div class="pool-visual" aria-hidden="true"></div>
+      </div>
+
+      <aside class="readiness" aria-labelledby="readiness-title">
+        <div>
+          <p class="eyebrow">Readiness meter</p>
+          <h2 id="readiness-title">Interview confidence</h2>
+          <p class="readiness-note">Complete modules and pass the quiz to build your talking points.</p>
+        </div>
+        <div class="progress-shell" aria-label="Course completion">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><strong id="moduleCount">0</strong><span>Modules done</span></div>
+          <div class="metric"><strong id="quizScore">0</strong><span>Quiz score</span></div>
+          <div class="metric"><strong id="flashCount">0</strong><span>Terms flipped</span></div>
+        </div>
+        <ul class="fact-list">
+          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Bucket tests compare pool loss against evaporation.</span></li>
+          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Dye testing confirms suspected structural leak points.</span></li>
+          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Pressure testing isolates underground plumbing lines.</span></li>
+          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Great techs diagnose, educate, reassure, and recommend.</span></li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="workspace" id="modules" aria-label="Course modules">
+      <aside class="module-rail" aria-labelledby="module-list-title">
+        <div class="rail-heading">
+          <h2 id="module-list-title">10 modules</h2>
+          <button class="text-button" type="button" id="markCurrent"><i data-lucide="check" class="icon" aria-hidden="true"></i>Done</button>
+        </div>
+        <div class="module-list" id="moduleList"></div>
+      </aside>
+      <article class="module-stage" id="moduleStage" aria-live="polite"></article>
+    </section>
+
+    <section class="tool-grid" id="tools" aria-label="Practice tools">
+      <article class="tool-panel">
+        <p class="eyebrow">Practice tool</p>
+        <h2><i data-lucide="droplets" class="icon" aria-hidden="true"></i>Bucket Test Simulator</h2>
+        <p>Enter a 24-hour result. The point is not exact math heroics. It is learning what the comparison means.</p>
+        <div class="field-grid">
+          <div class="field">
+            <label for="poolLoss">Pool drop, inches</label>
+            <input id="poolLoss" type="number" min="0" step="0.125" value="0.5">
+          </div>
+          <div class="field">
+            <label for="bucketLoss">Bucket drop, inches</label>
+            <input id="bucketLoss" type="number" min="0" step="0.125" value="0.125">
+          </div>
+        </div>
+        <div class="result-box" id="bucketResult"></div>
+      </article>
+
+      <article class="tool-panel">
+        <p class="eyebrow">Practice tool</p>
+        <h2><i data-lucide="split" class="icon" aria-hidden="true"></i>Leak Triage</h2>
+        <p>Pick the strongest clue. The tool returns the line of thinking you can say out loud in an interview.</p>
+        <div class="field">
+          <label for="symptomSelect">Customer clue</label>
+          <select id="symptomSelect">
+            <option value="equipment">Water visible at the equipment pad</option>
+            <option value="skimmer">Water drops to the skimmer and slows</option>
+            <option value="returns">Bubbles appear from return jets</option>
+            <option value="light">Water loss slows near the pool light</option>
+            <option value="rain">Pool lost water after hot, windy days</option>
+          </select>
+        </div>
+        <div class="result-box" id="triageResult"></div>
+      </article>
+
+      <article class="tool-panel">
+        <p class="eyebrow">Practice tool</p>
+        <h2><i data-lucide="captions" class="icon" aria-hidden="true"></i>Vocabulary Flashcards</h2>
+        <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Flip vocabulary flashcard">
+          <span id="flashLabel">Term</span>
+          <strong id="flashTerm">Pressure testing</strong>
+          <p id="flashDefinition">Click to flip.</p>
+        </div>
+        <div class="tool-actions">
+          <button class="text-button" type="button" id="prevFlash"><i data-lucide="chevron-left" class="icon" aria-hidden="true"></i>Previous</button>
+          <button class="text-button" type="button" id="nextFlash">Next<i data-lucide="chevron-right" class="icon" aria-hidden="true"></i></button>
+        </div>
+      </article>
+    </section>
+
+    <section class="quiz-layout" id="quiz" aria-label="Knowledge check">
+      <article class="quiz-panel">
+        <p class="eyebrow">Knowledge check</p>
+        <h2><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Interview Readiness Quiz</h2>
+        <p>Answer the questions without looking at the modules. A strong interview target is 8 or better.</p>
+        <div id="quizQuestions"></div>
+      </article>
+      <aside class="quiz-panel">
+        <div class="quiz-score">
+          <strong id="quizScoreLarge">0/10</strong>
+          <p id="quizMessage">Answer the quiz to see your readiness.</p>
+        </div>
+        <div class="callout gold" style="margin-top: 16px;">
+          <strong>Five facts to memorize</strong>
+          <p>Pools evaporate. Bucket tests separate evaporation from leaks. Pressure testing checks plumbing. Dye testing confirms visible leak points. Good techs think like detectives.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="tool-panel" id="interview" aria-labelledby="interview-title">
+      <p class="eyebrow">Interview mode</p>
+      <h2 id="interview-title"><i data-lucide="message-square-text" class="icon" aria-hidden="true"></i>Answer Builder</h2>
+      <div class="interview-builder">
+        <div>
+          <p>Use this to build a natural answer. Keep it conversational. You are signaling curiosity, operations judgment, and willingness to learn the trade.</p>
+          <div class="field">
+            <label for="answerFocus">Choose your angle</label>
+            <select id="answerFocus">
+              <option value="problem">Technical problem-solving</option>
+              <option value="customer">Customer communication</option>
+              <option value="operations">Operations background</option>
+              <option value="training">Trainability and growth</option>
+            </select>
+          </div>
+        </div>
+        <div class="script-output" id="scriptOutput"></div>
+      </div>
+    </section>
+
+    <section class="source-panel" id="sources" aria-labelledby="sources-title">
+      <p class="eyebrow">References</p>
+      <h2 id="sources-title"><i data-lucide="link" class="icon" aria-hidden="true"></i>Source Notes</h2>
+      <p>This training is interview preparation, not a substitute for field training, licensing, electrical safety procedures, or company SOPs. Pressure testing, diving, excavation, and pool-light work should be performed only by trained and authorized technicians.</p>
+      <ul class="source-list">
+        <li>
+          <strong><a href="https://www.americanleakdetection.com/diy-leak-tests/bucket-test/">American Leak Detection: Bucket Test</a></strong>
+          <p>Used for the bucket test procedure and interpretation.</p>
+        </li>
+        <li>
+          <strong><a href="https://www.leaktools.com/pressure-test-plumbing.html">Anderson Manufacturing: Pressure Test Plumbing</a></strong>
+          <p>Used for pressure testing as a process-of-elimination method for structure vs. plumbing leaks.</p>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    const modules = [
+      {
+        title: "Pool Systems 101",
+        time: "8 min",
+        badge: "Foundation",
+        summary: "A pool is a contained body of water connected to circulation plumbing. Your first interview win is being able to trace the water path without getting lost.",
+        phrase: "I understand the basic circulation path: pool water is pulled through suction points, moved by the pump, cleaned by the filter, optionally heated, and returned through jets.",
+        bullets: [
+          "Skimmers pull surface water and debris into the suction side. Common leak points include cracked skimmer throats and separation from the pool shell.",
+          "Main drains pull from the bottom. They are less common suspects than skimmers or lights, but they matter because access is harder.",
+          "The pump is the heart of circulation. Air leaks on the suction side can show up as bubbles, poor prime, or visible issues at the lid and seals.",
+          "Filters remove suspended debris. Cartridge, sand, and DE filters all serve the same core purpose with different media.",
+          "Return lines push cleaned water back to the pool through fittings or jets. Return fittings and underground return plumbing can leak."
+        ],
+        thinking: [
+          "Name the side of the system: suction before the pump, pressure after the pump.",
+          "Separate visible equipment leaks from buried plumbing leaks.",
+          "Do not diagnose from one clue. Use the clue to pick the next test."
+        ],
+        quiz: {
+          q: "Which path best describes normal pool circulation?",
+          options: ["Pool to skimmer/drain to pump to filter to heater to returns", "Pool to returns to filter to skimmer to pump", "Pump to pool to skimmer to drain to heater"],
+          answer: 0,
+          why: "Water is pulled from the pool by skimmers/main drains, moved by the pump, filtered, optionally heated, and returned."
+        },
+        visual: "flow"
+      },
+      {
+        title: "Understanding Water Loss",
+        time: "7 min",
+        badge: "Triage",
+        summary: "Not every water drop is a leak. A technician first decides whether the loss is normal evaporation, splash-out, rain overflow, or a true leak.",
+        phrase: "Before assuming a leak, I would want to confirm abnormal water loss and account for evaporation, splash-out, wind, rain, and any autofill system.",
+        bullets: [
+          "Evaporation changes with heat, wind, humidity, sun exposure, and water features.",
+          "An autofill can hide a leak because it replaces water while the customer sees a normal level.",
+          "A loss of about one eighth to one quarter inch per day can be normal in many Florida conditions; more than that deserves closer testing.",
+          "A water level that drops to a feature and then slows can point toward that feature: skimmer, light, tile line, or fitting.",
+          "Wet soil, sinking deck areas, air bubbles, or equipment-pad puddles are clues, not final answers."
+        ],
+        thinking: [
+          "Ask when the loss happens: pump on, pump off, after rain, after high wind, or constantly.",
+          "Ask what changed recently: repair, resurfacing, new equipment, storm, heavy use.",
+          "Look for the simplest visible issue before assuming underground plumbing."
+        ],
+        quiz: {
+          q: "Why can an autofill system make a leak harder to notice?",
+          options: ["It replaces lost water and can hide the true loss rate", "It permanently seals small plumbing leaks", "It makes dye testing unnecessary"],
+          answer: 0,
+          why: "Autofill keeps the level up, so the customer may not see how much water is being lost."
+        },
+        visual: "loss"
+      },
+      {
+        title: "The Bucket Test",
+        time: "8 min",
+        badge: "First test",
+        summary: "The bucket test compares pool water loss against a small control sample exposed to the same weather. It is one of the simplest ways to separate evaporation from leaking.",
+        phrase: "The bucket test helps distinguish evaporation from actual pool loss by comparing the pool level to a bucket of pool water over about 24 hours.",
+        bullets: [
+          "Bring the pool to normal operating level and turn off autofill.",
+          "Put pool water in a bucket and place the bucket on a step so it sits in the same conditions.",
+          "Mark the water level inside the bucket and the pool level outside the bucket.",
+          "Compare after about 24 hours. Rain or a long delay can make the test unreliable.",
+          "If the pool drops more than the bucket, the extra drop is evidence of a likely leak."
+        ],
+        thinking: [
+          "The bucket is the control. Both should evaporate similarly.",
+          "The test confirms likely leaking; it does not locate the leak.",
+          "A positive bucket test sends the technician into isolation and location work."
+        ],
+        quiz: {
+          q: "In a bucket test, what does it mean if the pool drops more than the bucket?",
+          options: ["Likely leak beyond evaporation", "Normal evaporation only", "The filter is definitely broken"],
+          answer: 0,
+          why: "The bucket accounts for evaporation. Extra pool drop points to water leaving somewhere else."
+        },
+        visual: "bucket"
+      },
+      {
+        title: "Leak Detection Logic",
+        time: "9 min",
+        badge: "Detective work",
+        summary: "Good technicians do not guess. They run a clean diagnostic sequence: confirm the leak, separate structure from plumbing, narrow the location, verify, then recommend.",
+        phrase: "I would think of leak detection as a diagnostic process: confirm the loss, isolate the system, test likely areas, verify the finding, then explain the repair path.",
+        bullets: [
+          "Step 1: Confirm that abnormal loss exists.",
+          "Step 2: Decide whether clues point toward structure, plumbing, equipment, or multiple issues.",
+          "Step 3: Isolate lines, fittings, features, and suspected shell penetrations.",
+          "Step 4: Verify with a second method when possible, especially before excavation.",
+          "Step 5: Explain what was tested, what was ruled out, what remains likely, and what should happen next."
+        ],
+        thinking: [
+          "A test that rules something out is still valuable.",
+          "Use the customer's story, but do not let it trap the diagnosis.",
+          "Confidence comes from sequence, not bravado."
+        ],
+        quiz: {
+          q: "What is the safest interview framing for leak detection?",
+          options: ["A systematic diagnostic process", "A quick guess based on the first visible crack", "A repair-first trade where testing is optional"],
+          answer: 0,
+          why: "The strongest signal is that you understand methodical diagnosis."
+        },
+        visual: "logic"
+      },
+      {
+        title: "Dye Testing",
+        time: "7 min",
+        badge: "Visual confirmation",
+        summary: "Dye testing is useful when you already have a suspected visible leak point. Still water matters because the technician is watching whether dye gets pulled into a gap.",
+        phrase: "Dye testing helps visually confirm suspected leak points around skimmers, lights, fittings, cracks, and other accessible openings.",
+        bullets: [
+          "Best use: visible or reachable features such as skimmers, lights, returns, steps, cracks, and fittings.",
+          "Poor use: broad unexplained water loss with no suspected area, moving water, wind, or hidden underground plumbing.",
+          "A positive result looks like dye being pulled into a specific opening rather than drifting randomly.",
+          "Dye can support a repair recommendation, but weak or confusing movement may require another test.",
+          "Pool lights involve electrical safety. An interview answer should show caution and respect for training."
+        ],
+        thinking: [
+          "Dye confirms a suspected location; it does not magically search the whole pool.",
+          "Turn circulation off and let water get still before testing when procedure allows.",
+          "Use dye as evidence, not theater."
+        ],
+        quiz: {
+          q: "Where is dye testing most useful?",
+          options: ["At visible suspected leak points", "Inside every underground pipe", "Only at the equipment pad"],
+          answer: 0,
+          why: "Dye is visual. It works best where a technician can place dye near a suspected opening."
+        },
+        visual: "dye"
+      },
+      {
+        title: "Pressure Testing",
+        time: "9 min",
+        badge: "Plumbing isolation",
+        summary: "Pressure testing isolates pool plumbing lines. If a sealed line loses pressure, the technician has evidence that the line may be compromised.",
+        phrase: "Pressure testing lets technicians isolate plumbing issues before excavation by sealing a line, applying controlled pressure, and watching whether it holds.",
+        bullets: [
+          "Lines are isolated with plugs so the technician can test one section at a time.",
+          "A gauge that holds steady suggests the line is likely intact under that test condition.",
+          "A pressure drop suggests a possible leak in that isolated line or test setup.",
+          "Results should be interpreted with training because valves, plugs, air, water, and setup details matter.",
+          "Pressure testing is not casual DIY work. It requires proper equipment, procedure, and safety judgment."
+        ],
+        thinking: [
+          "Use pressure testing to distinguish plumbing from structure.",
+          "A failed test narrows the search; it does not always pinpoint the exact buried break by itself.",
+          "Verification matters before recommending excavation."
+        ],
+        quiz: {
+          q: "What does a pressure drop usually indicate during an isolated line test?",
+          options: ["The isolated line or setup is not holding pressure", "The pool is only evaporating", "The skimmer basket is full"],
+          answer: 0,
+          why: "A dropping gauge means pressure is escaping somewhere in that isolated test path or setup."
+        },
+        visual: "pressure"
+      },
+      {
+        title: "Common Leak Locations",
+        time: "6 min",
+        badge: "Pattern recognition",
+        summary: "You do not need to memorize every rare failure. Start with the common areas and learn why they fail.",
+        phrase: "I would pay special attention to skimmers, lights, return fittings, visible cracks, main drains, and the equipment pad because they are common or high-impact leak areas.",
+        bullets: [
+          "Skimmers are common because plastic, concrete, plaster, and movement meet at the throat.",
+          "Pool lights are common because the niche, conduit, and sealing points create paths for water.",
+          "Return fittings can leak around the fitting face or in the buried return line.",
+          "Expansion cracks and shell cracks matter, especially in older pools or after movement.",
+          "The equipment pad can create a false pool leak if water is visibly leaking from pumps, filters, heaters, valves, or unions."
+        ],
+        thinking: [
+          "Common does not mean certain.",
+          "Water level clues help prioritize features.",
+          "Check the equipment pad before chasing hidden problems."
+        ],
+        quiz: {
+          q: "Which is a common leak area because materials meet and separate?",
+          options: ["Skimmer throat", "Pool thermometer", "Fence gate"],
+          answer: 0,
+          why: "Skimmer throats are classic suspects because the skimmer and shell can separate."
+        },
+        visual: "hotspots"
+      },
+      {
+        title: "Customer Psychology",
+        time: "8 min",
+        badge: "Trust",
+        summary: "Customers are often frustrated, anxious, and confused. The technician's job is technical and emotional: diagnose, educate, reassure, and recommend.",
+        phrase: "I would want the customer to understand what I tested, what I found, what it means, and what the next step is, without making them feel talked down to.",
+        bullets: [
+          "Customers may already have spent money or heard conflicting opinions.",
+          "A calm explanation is part of the service, not a bonus.",
+          "Specifics build trust: name the test, the result, and the next step.",
+          "Avoid vague conclusions like, 'You need repairs.' Explain the evidence.",
+          "Good communication can turn a stressful house call into a confident repair decision."
+        ],
+        thinking: [
+          "Start with what the customer cares about: stop water loss and avoid surprises.",
+          "Translate test results into plain English.",
+          "Use certainty carefully. Say what is confirmed and what is likely."
+        ],
+        quiz: {
+          q: "Which customer explanation is stronger?",
+          options: ["I pressure tested the return line, saw pressure loss, and the next step is locating and repairing that line.", "You need repairs.", "The pool is bad."],
+          answer: 0,
+          why: "The strongest explanation names the test, result, and next step."
+        },
+        visual: "customer"
+      },
+      {
+        title: "Service Business Context",
+        time: "7 min",
+        badge: "Company fit",
+        summary: "A leak detection visit is usually part diagnosis, part customer education, and part repair recommendation. In an interview, connect your answers to that full customer journey without relying on any employer-specific language.",
+        phrase: "What interests me is that the role combines field diagnosis, customer education, and a practical repair path, not just finding a problem and leaving the customer confused.",
+        bullets: [
+          "A strong service call moves from concern to evidence to next step.",
+          "Customers need simple explanations, not a technical fog bank.",
+          "Repair recommendations should be tied to what was tested and observed.",
+          "A good applicant sounds trainable, precise, physically ready, and comfortable with customers.",
+          "The safest company-fit answer focuses on learning the employer's actual process during training."
+        ],
+        thinking: [
+          "Do not over-flatter. Tie the work itself to your working style.",
+          "Ask about training, route structure, KPIs, documentation, and how repairs are handed off.",
+          "Show you understand the business outcome: diagnosis that leads to a confident next step."
+        ],
+        quiz: {
+          q: "What should you connect the role to in an interview?",
+          options: ["Diagnosis, customer education, repair options, and follow-through", "Only swimming ability", "Only sales pressure"],
+          answer: 0,
+          why: "The role sits at the intersection of technical diagnosis and customer trust."
+        },
+        visual: "business"
+      },
+      {
+        title: "Interview Vocabulary and Answers",
+        time: "10 min",
+        badge: "Performance",
+        summary: "The final step is sounding natural. Use trade terms accurately, then connect them to how you think and work.",
+        phrase: "Leak detection appeals to me because it is hands-on diagnostic work with a customer-service component: find the root cause, explain it clearly, and help the customer move toward a solution.",
+        bullets: [
+          "Core terms: leak detection, pressure testing, dye testing, plumbing isolation, return line, suction line, skimmer, main drain, equipment pad, structural leak, evaporation loss.",
+          "Use vocabulary only when it helps. Forced jargon sounds worse than plain English.",
+          "Prepare one answer for interest, one for customer conflict, one for learning a new trade, and one for physical field work.",
+          "Ask smart questions: What does training look like? What makes a new technician successful? How are findings documented? What KPIs matter?",
+          "Close by sounding ready to learn: systematic, customer-aware, and coachable."
+        ],
+        thinking: [
+          "Memorize phrases, not speeches.",
+          "Pause before technical answers so you sound thoughtful.",
+          "Connect your past experience to the diagnostic and customer parts of the job."
+        ],
+        quiz: {
+          q: "Which answer best frames interest in the position?",
+          options: ["It combines problem-solving, field work, and customer communication.", "I heard pools are easy.", "I do not like talking to customers."],
+          answer: 0,
+          why: "That answer maps to the actual role: diagnostics plus people."
+        },
+        visual: "vocab"
+      }
+    ];
+
+    const flashcards = [
+      ["Pressure testing", "Sealing and pressurizing an isolated plumbing line to see whether it holds pressure."],
+      ["Dye testing", "Using leak-detection dye near a suspected visible leak point to watch whether water pulls dye into an opening."],
+      ["Suction line", "Plumbing before the pump that pulls water from skimmers or main drains."],
+      ["Return line", "Plumbing after the filter/heater that sends water back into the pool through returns."],
+      ["Structural leak", "A leak in the pool shell, skimmer area, light niche, fitting, crack, or other pool structure."],
+      ["Equipment pad", "The area where pump, filter, heater, valves, unions, and related equipment are located."],
+      ["Evaporation loss", "Water lost naturally to weather conditions rather than through a defect."],
+      ["Plumbing isolation", "Separating one line or system section so it can be tested without confusing results."]
+    ];
+
+    const quizQuestions = modules.map((module, index) => ({
+      ...module.quiz,
+      module: index + 1
+    }));
+
+    const triage = {
+      equipment: ["Start at the equipment pad.", "Visible water at the pump, filter, heater, valves, or unions may mean the leak is not in the pool shell at all. I would inspect there before assuming underground plumbing."],
+      skimmer: ["Prioritize skimmer testing.", "If the water level drops to the skimmer and slows, the skimmer throat, face, or related suction line becomes a strong suspect."],
+      returns: ["Think suction-side air or return plumbing clues.", "Bubbles at returns can be a clue that air is entering the system, often before the pump. The next step is careful equipment and line isolation, not guessing."],
+      light: ["Check the light niche and conduit carefully.", "If loss slows near the light, the niche or conduit can be a suspect. This area needs safety-aware procedure and proper training."],
+      rain: ["Confirm with a bucket test.", "Hot, windy weather can cause real evaporation. I would avoid jumping to a leak conclusion without a bucket test or other confirmation."]
+    };
+
+    const scripts = {
+      problem: "What interests me is the diagnostic side of the work. A pool leak is not always obvious, so the technician has to confirm the problem, isolate whether it is structural or plumbing, test likely areas, and verify the finding before recommending a repair.",
+      customer: "I like that this role is not just technical. The customer is usually frustrated or confused, so a good technician has to explain what was tested, what the result means, and what the next step is in plain language.",
+      operations: "My operations background helps because leak detection seems to reward process. You follow a sequence, document findings, communicate clearly, and move the customer toward a practical repair decision.",
+      training: "I am not walking in pretending to be a leak expert. What I can bring is curiosity, reliability, customer communication, and a willingness to learn the diagnostic process the right way."
+    };
+
+    const state = {
+      currentModule: Number(localStorage.getItem("pl-current-module") || 0),
+      completed: JSON.parse(localStorage.getItem("pl-completed-modules") || "[]"),
+      quizAnswers: JSON.parse(localStorage.getItem("pl-quiz-answers") || "{}"),
+      flashIndex: Number(localStorage.getItem("pl-flash-index") || 0),
+      flashFlipped: false,
+      flashSeen: Number(localStorage.getItem("pl-flash-seen") || 0)
+    };
+
+    const moduleList = document.getElementById("moduleList");
+    const moduleStage = document.getElementById("moduleStage");
+    const progressFill = document.getElementById("progressFill");
+    const moduleCount = document.getElementById("moduleCount");
+    const quizScore = document.getElementById("quizScore");
+    const quizScoreLarge = document.getElementById("quizScoreLarge");
+    const quizMessage = document.getElementById("quizMessage");
+    const flashCount = document.getElementById("flashCount");
+    const toast = document.getElementById("toast");
+
+    function saveState() {
+      localStorage.setItem("pl-current-module", String(state.currentModule));
+      localStorage.setItem("pl-completed-modules", JSON.stringify(state.completed));
+      localStorage.setItem("pl-quiz-answers", JSON.stringify(state.quizAnswers));
+      localStorage.setItem("pl-flash-index", String(state.flashIndex));
+      localStorage.setItem("pl-flash-seen", String(state.flashSeen));
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function renderModuleList() {
+      moduleList.innerHTML = modules.map((module, index) => {
+        const done = state.completed.includes(index);
+        const active = state.currentModule === index;
+        const statusIcon = done ? "check-circle-2" : "circle";
+        return `
+          <button class="module-button ${done ? "done" : ""} ${active ? "active" : ""}" type="button" data-module="${index}" aria-current="${active ? "true" : "false"}">
+            <span class="module-number">${String(index + 1).padStart(2, "0")}</span>
+            <span>
+              <span class="module-title">${module.title}</span>
+              <span class="module-meta">${module.badge} - ${module.time}</span>
+            </span>
+            <i data-lucide="${statusIcon}" class="icon" aria-hidden="true"></i>
+          </button>
+        `;
+      }).join("");
+
+      moduleList.querySelectorAll("[data-module]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.currentModule = Number(button.dataset.module);
+          saveState();
+          renderAll();
+          document.getElementById("modules").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }
+
+    function renderVisual(type) {
+      if (type === "flow") {
+        const nodes = [
+          ["Pool", "Water body and shell"],
+          ["Skimmer / drain", "Suction points"],
+          ["Pump", "Moves water"],
+          ["Filter", "Removes debris"],
+          ["Heater", "Optional heat"],
+          ["Returns", "Jets back to pool"]
+        ];
+        return `<div class="flow-diagram">${nodes.map(node => `<div class="flow-node"><strong>${node[0]}</strong><span>${node[1]}</span></div>`).join("")}</div>`;
+      }
+
+      if (type === "logic") {
+        const steps = [
+          ["01", "Confirm", "Prove abnormal water loss exists."],
+          ["02", "Classify", "Structure, plumbing, equipment, or weather?"],
+          ["03", "Narrow", "Test likely features and isolated lines."],
+          ["04", "Verify", "Use evidence before repair talk."],
+          ["05", "Recommend", "Explain result and next step."]
+        ];
+        return `<div class="decision-map">${steps.map(step => `<div class="decision-step"><span>${step[0]}</span><strong>${step[1]}</strong><p>${step[2]}</p></div>`).join("")}</div>`;
+      }
+
+      if (type === "hotspots") {
+        const spots = [
+          ["High", "Skimmers", "Cracked throat or separation from shell."],
+          ["High", "Lights", "Niche, conduit, or sealing point."],
+          ["Medium", "Return fittings", "Face fitting or return line."],
+          ["Medium", "Expansion cracks", "Movement or aging shell."],
+          ["Serious", "Main drain", "Harder access and higher consequence."],
+          ["Variable", "Equipment pad", "Pump, filter, heater, unions, valves."]
+        ];
+        return `<div class="hotspot-grid">${spots.map(spot => `<div class="hotspot"><small>${spot[0]}</small><strong>${spot[1]}</strong><p>${spot[2]}</p></div>`).join("")}</div>`;
+      }
+
+      if (type === "bucket") {
+        return `
+          <div class="content-grid">
+            <div class="lesson-block">
+              <h3><i data-lucide="clipboard-check" class="icon" aria-hidden="true"></i>Procedure</h3>
+              <ul class="lesson-list">
+                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Fill the pool to normal level and turn off autofill.</span></li>
+                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Place bucket on a step with pool water inside.</span></li>
+                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Mark inside bucket level and outside pool level.</span></li>
+                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Compare after about 24 hours; restart after rain.</span></li>
+              </ul>
+            </div>
+            <div class="callout gold">
+              <strong>Interview signal</strong>
+              <p>Mentioning the bucket test early says you understand the difference between confirming a leak and locating it.</p>
+            </div>
+          </div>`;
+      }
+
+      const cards = {
+        loss: ["Leak or weather?", "A good technician does not let the customer story become the diagnosis. The first move is to confirm abnormal loss."],
+        dye: ["Still water matters", "Dye testing is about watching movement. If water is moving for another reason, the clue gets noisy."],
+        pressure: ["Gauge logic", "A sealed line that holds pressure is likely good under test. A dropping gauge points to a leak or setup issue."],
+        customer: ["Bad vs. good", "Bad: You need repairs. Good: I pressure tested the return line, saw pressure loss, isolated the line, and recommend locating and repairing that line."],
+        business: ["Business outcome", "The visit should move from diagnosis to confident repair options, not just a mysterious finding."],
+        vocab: ["Use terms naturally", "Vocabulary should make you clearer, not louder. Explain suction, return, structure, and plumbing in plain language."]
+      };
+      const card = cards[type] || ["Core concept", "Review the module notes and practice the interview phrase."];
+      return `<div class="callout"><strong>${card[0]}</strong><p>${card[1]}</p></div>`;
+    }
+
+    function renderModule() {
+      const module = modules[state.currentModule];
+      moduleStage.innerHTML = `
+        <header class="module-hero">
+          <div>
+            <p class="eyebrow">Module ${state.currentModule + 1} - ${module.badge}</p>
+            <h2>${module.title}</h2>
+            <p class="module-summary">${module.summary}</p>
+          </div>
+          <aside class="module-card">
+            <span>Say this naturally</span>
+            <strong>${module.phrase}</strong>
+            <p>${module.time} focused study</p>
+          </aside>
+        </header>
+        <div class="module-body">
+          ${renderVisual(module.visual)}
+          <div class="content-grid">
+            <section class="lesson-block">
+              <h3><i data-lucide="book-open-check" class="icon" aria-hidden="true"></i>What to know</h3>
+              <ul class="lesson-list">
+                ${module.bullets.map(item => `<li><i data-lucide="dot" class="icon" aria-hidden="true"></i><span>${item}</span></li>`).join("")}
+              </ul>
+            </section>
+            <section class="lesson-block">
+              <h3><i data-lucide="brain" class="icon" aria-hidden="true"></i>Technician thinking</h3>
+              <ul class="lesson-list">
+                ${module.thinking.map(item => `<li><i data-lucide="corner-down-right" class="icon" aria-hidden="true"></i><span>${item}</span></li>`).join("")}
+              </ul>
+            </section>
+          </div>
+          <section class="scenario-card">
+            <h3><i data-lucide="badge-help" class="icon" aria-hidden="true"></i>Quick check</h3>
+            <div class="quiz-inline" data-inline-quiz>
+              <p><strong>${module.quiz.q}</strong></p>
+              <div class="option-row">
+                ${module.quiz.options.map((option, idx) => `<button class="choice-button" type="button" data-answer="${idx}"><span class="choice-letter">${String.fromCharCode(65 + idx)}</span><span>${option}</span></button>`).join("")}
+              </div>
+              <div class="result-box" data-feedback>Choose an answer.</div>
+            </div>
+          </section>
+        </div>
+      `;
+
+      const quiz = moduleStage.querySelector("[data-inline-quiz]");
+      const feedback = quiz.querySelector("[data-feedback]");
+      quiz.querySelectorAll("[data-answer]").forEach(button => {
+        button.addEventListener("click", () => {
+          const selected = Number(button.dataset.answer);
+          const correct = selected === module.quiz.answer;
+          quiz.querySelectorAll("[data-answer]").forEach(btn => {
+            btn.classList.remove("correct", "wrong");
+            const answer = Number(btn.dataset.answer);
+            if (answer === module.quiz.answer) btn.classList.add("correct");
+            if (answer === selected && !correct) btn.classList.add("wrong");
+          });
+          feedback.innerHTML = `<strong>${correct ? "Correct." : "Not quite."}</strong>${module.quiz.why}`;
+          if (correct && !state.completed.includes(state.currentModule)) {
+            state.completed.push(state.currentModule);
+            saveState();
+            updateProgress();
+            renderModuleList();
+            showToast("Module marked complete.");
+          }
+          refreshIcons();
+        });
+      });
+    }
+
+    function updateProgress() {
+      const moduleDone = state.completed.length;
+      const quizDone = Object.values(state.quizAnswers).filter(Boolean).length;
+      const quizCorrect = quizQuestions.reduce((sum, q, idx) => sum + (state.quizAnswers[idx] === q.answer ? 1 : 0), 0);
+      const completion = Math.round(((moduleDone / modules.length) * 70) + ((quizDone / quizQuestions.length) * 30));
+      progressFill.style.width = `${Math.min(100, completion)}%`;
+      moduleCount.textContent = moduleDone;
+      quizScore.textContent = quizCorrect;
+      quizScoreLarge.textContent = `${quizCorrect}/${quizQuestions.length}`;
+      flashCount.textContent = state.flashSeen;
+
+      if (quizDone === 0) {
+        quizMessage.textContent = "Answer the quiz to see your readiness.";
+      } else if (quizCorrect >= 8) {
+        quizMessage.textContent = "Strong interview footing. Keep the answer builder warm.";
+      } else if (quizCorrect >= 5) {
+        quizMessage.textContent = "Good start. Review the missed concepts once more.";
+      } else {
+        quizMessage.textContent = "Stay with the modules. The structure will click.";
+      }
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById("quizQuestions");
+      container.innerHTML = quizQuestions.map((q, idx) => `
+        <div class="quiz-question">
+          <h3>Q${idx + 1}. ${q.q}</h3>
+          <div class="option-row">
+            ${q.options.map((option, optionIdx) => {
+              const answered = state.quizAnswers[idx];
+              const className = answered === optionIdx && answered === q.answer ? "correct" : answered === optionIdx ? "wrong" : answered !== undefined && optionIdx === q.answer ? "correct" : "";
+              return `<button class="choice-button ${className}" type="button" data-quiz="${idx}" data-option="${optionIdx}"><span class="choice-letter">${String.fromCharCode(65 + optionIdx)}</span><span>${option}</span></button>`;
+            }).join("")}
+          </div>
+          <div class="result-box" id="quizFeedback${idx}">${state.quizAnswers[idx] !== undefined ? `<strong>${state.quizAnswers[idx] === q.answer ? "Correct." : "Review this."}</strong>${q.why}` : "Choose an answer."}</div>
+        </div>
+      `).join("");
+
+      container.querySelectorAll("[data-quiz]").forEach(button => {
+        button.addEventListener("click", () => {
+          const qIndex = Number(button.dataset.quiz);
+          const option = Number(button.dataset.option);
+          state.quizAnswers[qIndex] = option;
+          saveState();
+          renderQuiz();
+          updateProgress();
+          refreshIcons();
+        });
+      });
+    }
+
+    function evaluateBucket() {
+      const pool = Number(document.getElementById("poolLoss").value || 0);
+      const bucket = Number(document.getElementById("bucketLoss").value || 0);
+      const extra = Math.max(0, pool - bucket);
+      const result = document.getElementById("bucketResult");
+      if (pool < bucket) {
+        result.innerHTML = "<strong>Check your measurements.</strong>The bucket should not usually lose more than the pool unless the setup, mark, weather, or bucket changed.";
+      } else if (extra >= 0.125) {
+        result.innerHTML = `<strong>Likely leak signal.</strong>The pool lost ${extra.toFixed(3).replace(/0+$/, "").replace(/\.$/, "")} inches more than the bucket. Say: the bucket accounts for evaporation, so the extra pool drop points toward a leak.`;
+      } else {
+        result.innerHTML = "<strong>Likely evaporation.</strong>The pool and bucket are close. I would avoid promising a leak without more evidence.";
+      }
+    }
+
+    function evaluateTriage() {
+      const value = document.getElementById("symptomSelect").value;
+      const [title, copy] = triage[value];
+      document.getElementById("triageResult").innerHTML = `<strong>${title}</strong>${copy}`;
+    }
+
+    function renderFlashcard() {
+      const [term, definition] = flashcards[state.flashIndex];
+      document.getElementById("flashLabel").textContent = state.flashFlipped ? "Definition" : "Term";
+      document.getElementById("flashTerm").textContent = state.flashFlipped ? definition : term;
+      document.getElementById("flashDefinition").textContent = state.flashFlipped ? term : "Click to flip.";
+      updateProgress();
+    }
+
+    function moveFlash(direction) {
+      state.flashIndex = (state.flashIndex + direction + flashcards.length) % flashcards.length;
+      state.flashFlipped = false;
+      saveState();
+      renderFlashcard();
+    }
+
+    function flipFlashcard() {
+      state.flashFlipped = !state.flashFlipped;
+      if (state.flashFlipped) {
+        state.flashSeen = Math.min(flashcards.length, state.flashSeen + 1);
+      }
+      saveState();
+      renderFlashcard();
+    }
+
+    function renderScript() {
+      const value = document.getElementById("answerFocus").value;
+      document.getElementById("scriptOutput").innerHTML = `
+        <p>Draft answer</p>
+        <strong>${scripts[value]}</strong>
+      `;
+    }
+
+    function markCurrentComplete() {
+      if (!state.completed.includes(state.currentModule)) {
+        state.completed.push(state.currentModule);
+        saveState();
+        renderAll();
+        showToast("Module marked complete.");
+      } else {
+        showToast("This module is already complete.");
+      }
+    }
+
+    function resetProgress() {
+      state.currentModule = 0;
+      state.completed = [];
+      state.quizAnswers = {};
+      state.flashIndex = 0;
+      state.flashFlipped = false;
+      state.flashSeen = 0;
+      saveState();
+      renderAll();
+      showToast("Progress reset.");
+    }
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function renderAll() {
+      renderModuleList();
+      renderModule();
+      renderQuiz();
+      renderFlashcard();
+      renderScript();
+      evaluateBucket();
+      evaluateTriage();
+      updateProgress();
+      refreshIcons();
+    }
+
+    document.getElementById("startCourse").addEventListener("click", () => {
+      state.currentModule = 0;
+      saveState();
+      renderAll();
+      document.getElementById("modules").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    document.getElementById("markCurrent").addEventListener("click", markCurrentComplete);
+    document.getElementById("resetProgress").addEventListener("click", resetProgress);
+    document.getElementById("poolLoss").addEventListener("input", evaluateBucket);
+    document.getElementById("bucketLoss").addEventListener("input", evaluateBucket);
+    document.getElementById("symptomSelect").addEventListener("change", evaluateTriage);
+    document.getElementById("prevFlash").addEventListener("click", () => moveFlash(-1));
+    document.getElementById("nextFlash").addEventListener("click", () => moveFlash(1));
+    document.getElementById("flashcard").addEventListener("click", flipFlashcard);
+    document.getElementById("flashcard").addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        flipFlashcard();
+      }
+    });
+    document.getElementById("answerFocus").addEventListener("change", renderScript);
+
+    renderAll();
+  </script>
+</body>
+</html>
