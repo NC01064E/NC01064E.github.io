@@ -1,0 +1,1889 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Interactive customer intake question tree for pool leak detection diagnostics and customer education.">
+  <link rel="canonical" href="https://cerbone.me/pool-leak-crash-course/question-tree/">
+  <title>Pool Leak Detection Question Tree</title>
+  <style>
+    :root {
+      --ink: #17201f;
+      --muted: #5b6764;
+      --soft: #f6f4ed;
+      --paper: #fffdf7;
+      --line: #d9d3c3;
+      --red: #b3261e;
+      --red-dark: #7f1d18;
+      --teal: #0f766e;
+      --blue: #245b7a;
+      --gold: #b7791f;
+      --green: #277041;
+      --charcoal: #222826;
+      --shadow: 0 18px 48px rgba(23, 32, 31, 0.12);
+      --radius: 8px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--soft);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    a {
+      color: var(--red-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 68px;
+      padding: 12px clamp(16px, 4vw, 44px);
+      background: rgba(255, 253, 247, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      color: var(--paper);
+      background: var(--red);
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .top-actions,
+    .button-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .text-button,
+    .icon-button,
+    .answer-button,
+    .chip-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-button {
+      width: 38px;
+      padding: 0;
+    }
+
+    .text-button.primary,
+    .answer-button.primary {
+      color: var(--paper);
+      background: var(--red);
+      border-color: var(--red);
+      font-weight: 800;
+    }
+
+    .answer-button.primary strong,
+    .answer-button.primary span {
+      color: var(--paper);
+    }
+
+    .text-button.secondary {
+      color: var(--paper);
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+
+    .text-button:hover,
+    .icon-button:hover,
+    .answer-button:hover,
+    .chip-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--ink);
+    }
+
+    .text-button:focus-visible,
+    .icon-button:focus-visible,
+    .answer-button:focus-visible,
+    .chip-button:focus-visible {
+      outline: 3px solid rgba(15, 118, 110, 0.28);
+      outline-offset: 2px;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+
+    .app-shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(18px, 4vw, 44px);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(310px, 0.9fr);
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .workspace-grid {
+      grid-template-columns: minmax(270px, 0.72fr) minmax(0, 1.28fr) minmax(300px, 0.8fr);
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(250px, 0.62fr);
+      align-items: end;
+      gap: 18px;
+      min-height: 340px;
+      overflow: hidden;
+      padding: clamp(24px, 4vw, 44px);
+    }
+
+    .hero-main > .eyebrow,
+    .hero-main > h1,
+    .hero-main > .intro-copy,
+    .hero-main > .hero-actions {
+      grid-column: 1;
+    }
+
+    .hero-aside {
+      padding: clamp(20px, 3vw, 30px);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--red-dark);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 5rem);
+      line-height: 0.98;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 3vw, 2.2rem);
+      line-height: 1.1;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .intro-copy {
+      max-width: 720px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .hero-main .intro-copy {
+      max-width: 100%;
+    }
+
+    .hero-actions {
+      justify-content: flex-start;
+      margin-top: 22px;
+    }
+
+    .pool-map {
+      position: relative;
+      grid-column: 2;
+      grid-row: 1 / span 4;
+      width: 100%;
+      min-width: 0;
+      aspect-ratio: 1.5;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(36, 91, 122, 0.08)),
+        var(--paper);
+      overflow: hidden;
+    }
+
+    .pool-map::before {
+      content: "";
+      position: absolute;
+      inset: 18% 12% 30% 10%;
+      border: 12px solid #e6b37d;
+      border-radius: 22px;
+      background: #8fd3df;
+      box-shadow: inset 0 0 0 3px rgba(36, 91, 122, 0.55);
+    }
+
+    .pool-map::after {
+      content: "";
+      position: absolute;
+      inset: 36% 27% 43% 20%;
+      border-radius: 12px;
+      background: #45b9d8;
+    }
+
+    .map-line {
+      position: absolute;
+      height: 7px;
+      background: #139ed0;
+      border-radius: 999px;
+      transform-origin: left center;
+    }
+
+    .map-line.one {
+      left: 29%;
+      top: 63%;
+      width: 28%;
+      transform: rotate(46deg);
+    }
+
+    .map-line.two {
+      left: 57%;
+      top: 66%;
+      width: 25%;
+      transform: rotate(-18deg);
+    }
+
+    .map-node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      color: var(--paper);
+      background: var(--red);
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(179, 38, 30, 0.22);
+    }
+
+    .map-node.a {
+      left: 25%;
+      top: 56%;
+    }
+
+    .map-node.b {
+      right: 16%;
+      top: 58%;
+      background: var(--blue);
+    }
+
+    .map-node.c {
+      right: 24%;
+      bottom: 10%;
+      background: var(--teal);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      min-height: 92px;
+      padding: 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 18px 0;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    .path-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .path-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 11px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .path-index {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .path-item strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.95rem;
+    }
+
+    .path-item span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .empty-note {
+      padding: 14px;
+      color: var(--muted);
+      background: var(--soft);
+      border: 1px dashed var(--line);
+      border-radius: 7px;
+    }
+
+    .question-card {
+      min-height: 540px;
+      padding: clamp(20px, 4vw, 34px);
+    }
+
+    .question-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .badge.teal {
+      background: var(--teal);
+    }
+
+    .badge.gold {
+      background: var(--gold);
+    }
+
+    .badge.red {
+      background: var(--red);
+    }
+
+    .question-copy {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .answer-button {
+      justify-content: flex-start;
+      min-height: 72px;
+      padding: 14px;
+      text-align: left;
+      align-items: flex-start;
+      background: var(--soft);
+    }
+
+    .answer-button .icon {
+      flex: 0 0 auto;
+      margin-top: 2px;
+      color: var(--teal);
+    }
+
+    .answer-button strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.96rem;
+      line-height: 1.22;
+    }
+
+    .answer-button span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .outcome-band {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .outcome-box {
+      padding: 16px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .outcome-box.alert {
+      background: #fff0ec;
+      border-color: #e9b6ad;
+    }
+
+    .outcome-box strong {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 8px;
+    }
+
+    .outcome-box ul,
+    .question-bank ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .summary-panel {
+      position: sticky;
+      top: 86px;
+    }
+
+    .summary-output {
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-section {
+      padding: 13px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .summary-section strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .summary-section p,
+    .summary-section li {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .summary-section ul {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .copy-note {
+      min-height: 20px;
+      color: var(--green);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .bank-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .question-bank {
+      padding: 18px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .question-bank h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .question-bank li {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      max-width: min(360px, calc(100vw - 36px));
+      padding: 12px 14px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 7px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .workspace-grid,
+      .bank-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-panel {
+        position: static;
+      }
+
+      .hero-main {
+        display: block;
+      }
+
+      .pool-map {
+        display: block;
+        width: min(520px, 100%);
+        margin-top: 24px;
+      }
+
+      .hero-main .intro-copy {
+        max-width: 720px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        position: static;
+        align-items: flex-start;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+      }
+
+      .app-shell {
+        padding: 14px;
+      }
+
+      .hero-main,
+      .hero-aside,
+      .question-card,
+      .panel-body {
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 11vw, 3.2rem);
+      }
+
+      .answer-grid,
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-button {
+        min-height: 64px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">PL</div>
+      <div>
+        <p class="brand-title">Pool Leak Detection Crash Course</p>
+        <p class="brand-subtitle">Customer intake question tree</p>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="Page actions">
+      <a class="text-button" href="../"><i data-lucide="book-open-check" class="icon" aria-hidden="true"></i>Course</a>
+      <button class="text-button secondary" type="button" id="copySummaryTop"><i data-lucide="copy" class="icon" aria-hidden="true"></i>Copy summary</button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="grid hero-grid" aria-labelledby="page-title">
+      <div class="panel hero-main">
+        <p class="eyebrow">Customer intake and first-pass triage</p>
+        <h1 id="page-title">Ask cleaner questions before testing.</h1>
+        <p class="intro-copy">A guided question tree for understanding water loss, equipment clues, air entry, shell or finish concerns, recent changes, and safety flags before choosing the next technical step.</p>
+        <div class="button-row hero-actions">
+          <button class="text-button primary" type="button" id="startTree"><i data-lucide="play" class="icon" aria-hidden="true"></i>Start intake</button>
+          <button class="text-button" type="button" id="resetTop"><i data-lucide="rotate-ccw" class="icon" aria-hidden="true"></i>Reset</button>
+        </div>
+        <div class="pool-map" aria-hidden="true">
+          <span class="map-line one"></span>
+          <span class="map-line two"></span>
+          <span class="map-node a">Q</span>
+          <span class="map-node b">T</span>
+          <span class="map-node c">R</span>
+        </div>
+      </div>
+      <aside class="panel hero-aside">
+        <p class="eyebrow">Route-practical workflow</p>
+        <h2>Concern -> clue -> test -> next step.</h2>
+        <p class="intro-copy">The output is a short intake summary you can use to explain what you heard, what it may point toward, and what should be checked next.</p>
+        <div class="stat-grid">
+          <div class="stat"><strong id="stepCount">0</strong><span>Answers captured</span></div>
+          <div class="stat"><strong id="riskLevel">Base</strong><span>Current risk level</span></div>
+          <div class="stat"><strong id="focusCount">0</strong><span>Diagnostic focus areas</span></div>
+          <div class="stat"><strong id="nextCount">0</strong><span>Next questions ready</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid workspace-grid" aria-label="Question tree workspace">
+      <aside class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Question path</p>
+            <h2>Trail</h2>
+          </div>
+          <button class="icon-button" type="button" id="backButton" title="Back one answer" aria-label="Back one answer"><i data-lucide="undo-2" class="icon" aria-hidden="true"></i></button>
+        </div>
+        <div class="panel-body">
+          <div id="pathList" class="path-list"></div>
+        </div>
+      </aside>
+
+      <section class="panel question-card" id="treePanel" aria-live="polite"></section>
+
+      <aside class="panel summary-panel" aria-labelledby="summary-title">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Customer-facing output</p>
+            <h2 id="summary-title">Intake Summary</h2>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="summary-output" id="summaryOutput"></div>
+          <div class="button-row" style="justify-content:flex-start; margin-top:14px;">
+            <button class="text-button primary" type="button" id="copySummary"><i data-lucide="copy" class="icon" aria-hidden="true"></i>Copy</button>
+            <button class="text-button" type="button" id="resetTree"><i data-lucide="rotate-ccw" class="icon" aria-hidden="true"></i>Reset</button>
+          </div>
+          <p class="copy-note" id="copyNote" aria-live="polite"></p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid bank-grid" aria-label="Standard question bank">
+      <article class="question-bank">
+        <h3><i data-lucide="waves" class="icon" aria-hidden="true"></i>Water Loss</h3>
+        <ul>
+          <li>When did you first notice the loss?</li>
+          <li>How much water are you adding, and how often?</li>
+          <li>Does the loss change when the pump is on or off?</li>
+          <li>Does the level stop near a skimmer, light, return, step, tile line, or crack?</li>
+          <li>Is an autofill running more than usual?</li>
+        </ul>
+      </article>
+
+      <article class="question-bank">
+        <h3><i data-lucide="settings-2" class="icon" aria-hidden="true"></i>Equipment</h3>
+        <ul>
+          <li>Is water visible around the pump, filter, heater, valves, unions, or waste line?</li>
+          <li>Has filter pressure changed recently?</li>
+          <li>Does the pump lose prime or struggle to start?</li>
+          <li>Are air bubbles coming from the return jets?</li>
+          <li>Has anyone changed valves, timers, automation, or pump speed?</li>
+        </ul>
+      </article>
+
+      <article class="question-bank">
+        <h3><i data-lucide="shield-alert" class="icon" aria-hidden="true"></i>Safety And Context</h3>
+        <ul>
+          <li>Have any breakers or GFCI outlets tripped?</li>
+          <li>Has anyone felt tingling in or around the pool?</li>
+          <li>Is there water near lights, junction boxes, outlets, or automation?</li>
+          <li>Was there recent resurfacing, plumbing, equipment, deck work, storm damage, or heavy use?</li>
+          <li>What worries you most: water loss, damage, safety, cost, or uncertainty?</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    const tree = {
+      safety: {
+        badge: "Safety first",
+        tone: "red",
+        question: "Any electrical or immediate safety concern?",
+        detail: "Ask this before diagnosing a leak path. Water and electricity change the priority.",
+        answers: [
+          {
+            label: "Yes, there is a safety flag",
+            note: "Tingling, GFCI/breaker trips, loose pool light, water in electrical areas, exposed wiring, or unsafe access.",
+            next: "electricalStop",
+            risk: "High",
+            focus: ["Electrical safety"]
+          },
+          {
+            label: "No safety flag reported",
+            note: "No tingling, electrical trip, loose light, or known unsafe condition reported.",
+            next: "primaryConcern",
+            risk: "Base"
+          },
+          {
+            label: "Unknown",
+            note: "Customer is not sure, so the visit should keep safety checks active.",
+            next: "primaryConcern",
+            risk: "Watch",
+            focus: ["Safety awareness"]
+          }
+        ]
+      },
+      primaryConcern: {
+        badge: "Primary concern",
+        tone: "teal",
+        question: "What did the customer notice first?",
+        detail: "Start with the customer's strongest clue before narrowing the technical path.",
+        answers: [
+          {
+            label: "Water level is dropping",
+            note: "Customer is adding water or sees a lower level.",
+            next: "lossPattern",
+            focus: ["Water-loss pattern"]
+          },
+          {
+            label: "Water at the equipment pad",
+            note: "Moisture or puddling near pump, filter, heater, valves, unions, or waste line.",
+            next: "equipmentLocation",
+            focus: ["Equipment pad"]
+          },
+          {
+            label: "Air bubbles or pump prime issue",
+            note: "Returns show bubbles, pump basket has air, or the pump struggles to prime.",
+            next: "airPattern",
+            focus: ["Suction-side air"]
+          },
+          {
+            label: "Visible crack, fitting, light, skimmer, or finish issue",
+            note: "A visible location may be connected to the loss.",
+            next: "visibleLocation",
+            focus: ["Visible pool feature"]
+          },
+          {
+            label: "Recent change or weather event",
+            note: "Recent work, storm, heavy use, heat, wind, resurfacing, or equipment change.",
+            next: "recentChange",
+            focus: ["Context"]
+          },
+          {
+            label: "Not sure yet",
+            note: "Customer only knows something seems off.",
+            next: "broadScreen",
+            focus: ["General screen"]
+          }
+        ]
+      },
+      lossPattern: {
+        badge: "Water-loss pattern",
+        tone: "teal",
+        question: "When does the water loss seem worse?",
+        detail: "Pump-on and pump-off clues help separate pressure-side, suction-side, equipment, and static vessel possibilities.",
+        answers: [
+          {
+            label: "Worse with pump running",
+            note: "Loss appears faster while circulation is active.",
+            next: "pumpOnClues",
+            focus: ["Pressure-side plumbing", "Equipment", "Water features"]
+          },
+          {
+            label: "Worse with pump off",
+            note: "Loss appears faster while the pool is static.",
+            next: "pumpOffClues",
+            focus: ["Static vessel", "Shell or fittings", "Suction-side condition"]
+          },
+          {
+            label: "About the same either way",
+            note: "Loss appears steady regardless of circulation.",
+            next: "steadyClues",
+            focus: ["Weather and usage", "Static leak check"]
+          },
+          {
+            label: "Drops to a feature and slows",
+            note: "Water level seems to stop near a skimmer, light, return, step, tile line, or crack.",
+            next: "levelStopLocation",
+            focus: ["Level-stop clue"]
+          },
+          {
+            label: "Autofill may be hiding the loss",
+            note: "Autofill runs frequently or water use is not obvious from level alone.",
+            next: "autofillOutcome",
+            focus: ["Autofill masking"]
+          }
+        ]
+      },
+      pumpOnClues: {
+        badge: "Pump running",
+        tone: "gold",
+        question: "What else happens when the pump is running?",
+        detail: "Visible equipment leaks and pressure-side clues should be checked before assuming underground plumbing.",
+        answers: [
+          {
+            label: "Water appears at equipment",
+            note: "Moisture shows near pad components while the pump runs.",
+            next: "equipmentOutcome",
+            focus: ["Equipment pad"]
+          },
+          {
+            label: "Return fitting or water feature is suspect",
+            note: "Loss points toward return jets, wall fittings, spa spillover, fountain, cleaner line, or feature plumbing.",
+            next: "pressureOutcome",
+            focus: ["Pressure-side line"]
+          },
+          {
+            label: "No visible water, but loss is pump-on",
+            note: "No clear above-ground leak is visible.",
+            next: "pressureIsolationOutcome",
+            focus: ["Pressure isolation"]
+          },
+          {
+            label: "Air bubbles also appear",
+            note: "Air entering the system may be part of the clue pattern.",
+            next: "airPattern",
+            focus: ["Air entry"]
+          }
+        ]
+      },
+      pumpOffClues: {
+        badge: "Pump off",
+        tone: "gold",
+        question: "When the pump is off, does the level point to a feature?",
+        detail: "A static loss can point toward shell penetrations, fittings, skimmer areas, lights, or visible cracks.",
+        answers: [
+          {
+            label: "Yes, level stops near a feature",
+            note: "The water level slows near a specific elevation.",
+            next: "levelStopLocation",
+            focus: ["Level-stop clue"]
+          },
+          {
+            label: "Visible crack, light, skimmer, or fitting",
+            note: "There is a visible location to inspect closely.",
+            next: "visibleLocation",
+            focus: ["Visible pool feature"]
+          },
+          {
+            label: "No clear feature yet",
+            note: "Static loss is reported, but no visible target is confirmed.",
+            next: "staticOutcome",
+            focus: ["Static vessel review"]
+          }
+        ]
+      },
+      steadyClues: {
+        badge: "Steady loss",
+        tone: "teal",
+        question: "What context could explain steady loss?",
+        detail: "Weather, usage, water features, and autofill can make the story noisy.",
+        answers: [
+          {
+            label: "Heat, wind, sun, splash-out, or heavy use",
+            note: "Conditions could explain some loss, but still need visible checks.",
+            next: "weatherOutcome",
+            focus: ["Weather and usage"]
+          },
+          {
+            label: "Visible clue exists",
+            note: "There is a crack, fitting, light, skimmer, stain, wet area, or finish concern.",
+            next: "visibleLocation",
+            focus: ["Visible pool feature"]
+          },
+          {
+            label: "No visible clue",
+            note: "Steady loss with no obvious target.",
+            next: "generalIsolationOutcome",
+            focus: ["General isolation"]
+          }
+        ]
+      },
+      levelStopLocation: {
+        badge: "Level-stop clue",
+        tone: "teal",
+        question: "Which feature is near the level where the drop slows?",
+        detail: "A level-stop clue does not prove the leak, but it tells you where to inspect first.",
+        answers: [
+          {
+            label: "Skimmer",
+            note: "Water loss slows near the skimmer mouth or throat.",
+            next: "skimmerOutcome",
+            focus: ["Skimmer throat"]
+          },
+          {
+            label: "Pool light",
+            note: "Water loss slows near the light niche or conduit elevation.",
+            next: "lightOutcome",
+            risk: "Watch",
+            focus: ["Light niche", "Electrical safety"]
+          },
+          {
+            label: "Return fitting or wall fitting",
+            note: "Water loss slows near a fitting penetration.",
+            next: "fittingOutcome",
+            focus: ["Return or wall fitting"]
+          },
+          {
+            label: "Tile line, step, crack, or shell transition",
+            note: "Water loss slows near a shell, finish, or transition point.",
+            next: "shellOutcome",
+            focus: ["Shell or finish"]
+          },
+          {
+            label: "Unknown feature",
+            note: "The stopping point is not clear yet.",
+            next: "markLevelOutcome",
+            focus: ["Water-level documentation"]
+          }
+        ]
+      },
+      equipmentLocation: {
+        badge: "Equipment pad",
+        tone: "teal",
+        question: "Where is water visible at the equipment area?",
+        detail: "Equipment leaks are often visible and should be checked before assuming underground plumbing.",
+        answers: [
+          {
+            label: "Pump, lid, seal, or unions",
+            note: "Water or air clue is near the pump assembly.",
+            next: "pumpEquipmentOutcome",
+            focus: ["Pump assembly"]
+          },
+          {
+            label: "Filter, heater, valves, or plumbing joints",
+            note: "Water is near pressure-side equipment or fittings.",
+            next: "equipmentOutcome",
+            focus: ["Equipment pad"]
+          },
+          {
+            label: "Waste line, backwash, or drain",
+            note: "Water may be leaving through a waste or drain path.",
+            next: "wasteLineOutcome",
+            focus: ["Waste line"]
+          },
+          {
+            label: "Unclear equipment source",
+            note: "Pad is wet, but the source is not obvious.",
+            next: "equipmentOutcome",
+            focus: ["Equipment pad"]
+          }
+        ]
+      },
+      airPattern: {
+        badge: "Air and prime",
+        tone: "gold",
+        question: "How is the air or prime issue showing up?",
+        detail: "Air in the system often points toward suction-side entry, pump lid/seal issues, valves, or suction plumbing.",
+        answers: [
+          {
+            label: "Bubbles from return jets",
+            note: "Air exits at returns while the system is running.",
+            next: "suctionOutcome",
+            focus: ["Suction-side air"]
+          },
+          {
+            label: "Pump basket has air or poor prime",
+            note: "Pump does not stay fully primed or has visible air under the lid.",
+            next: "pumpPrimeOutcome",
+            focus: ["Pump lid and suction side"]
+          },
+          {
+            label: "Air appears after recent equipment work",
+            note: "A recent change may have introduced a seal, union, lid, valve, or plumbing issue.",
+            next: "recentEquipmentOutcome",
+            focus: ["Recent equipment work"]
+          }
+        ]
+      },
+      visibleLocation: {
+        badge: "Visible clue",
+        tone: "teal",
+        question: "Which visible clue is strongest?",
+        detail: "A visible clue should be connected to a specific component or material before recommending repair.",
+        answers: [
+          {
+            label: "Skimmer throat or face",
+            note: "Cracking, separation, or water-line behavior near the skimmer.",
+            next: "skimmerOutcome",
+            focus: ["Skimmer throat"]
+          },
+          {
+            label: "Light niche or light conduit",
+            note: "Water loss or visible concern near a pool light.",
+            next: "lightOutcome",
+            risk: "Watch",
+            focus: ["Light niche", "Electrical safety"]
+          },
+          {
+            label: "Return fitting, drain, step, or wall fitting",
+            note: "A shell penetration or fitting is suspect.",
+            next: "fittingOutcome",
+            focus: ["Shell penetration"]
+          },
+          {
+            label: "Open crack, tile line, coping, or shell transition",
+            note: "Crack or movement-related clue appears connected to water loss.",
+            next: "shellOutcome",
+            focus: ["Concrete or gunite shell"]
+          },
+          {
+            label: "Hollow finish, pop-off, stain, or spall",
+            note: "Finish distress may need a different repair conversation than a shell leak.",
+            next: "finishOutcome",
+            focus: ["Finish or plaster"]
+          }
+        ]
+      },
+      recentChange: {
+        badge: "Recent context",
+        tone: "gold",
+        question: "What changed recently?",
+        detail: "Recent work or weather can explain where to look first and what expectations to set.",
+        answers: [
+          {
+            label: "Resurfacing, patch, plaster, or finish work",
+            note: "Finish and startup history may matter.",
+            next: "finishRecentOutcome",
+            focus: ["Finish repair context"]
+          },
+          {
+            label: "New equipment, plumbing, valves, automation, or pump speed",
+            note: "System changes can create equipment, valve, air, or pressure clues.",
+            next: "recentEquipmentOutcome",
+            focus: ["Recent equipment work"]
+          },
+          {
+            label: "Deck, coping, drainage, or construction work",
+            note: "Movement, drainage, and access routes may affect leak clues.",
+            next: "constructionOutcome",
+            focus: ["Construction and layout"]
+          },
+          {
+            label: "Storm, heat, wind, heavy use, or water feature changes",
+            note: "Weather and usage can complicate the water-loss story.",
+            next: "weatherOutcome",
+            focus: ["Weather and usage"]
+          }
+        ]
+      },
+      broadScreen: {
+        badge: "Broad screen",
+        tone: "teal",
+        question: "What should be screened first?",
+        detail: "When the customer is unsure, gather the highest-signal clues before narrowing.",
+        answers: [
+          {
+            label: "Water level and recent water added",
+            note: "Start with timing, amount added, and whether the loss changes.",
+            next: "lossPattern",
+            focus: ["Water-loss pattern"]
+          },
+          {
+            label: "Equipment pad and pump operation",
+            note: "Check visible water, air, prime, filter pressure, valves, and recent adjustments.",
+            next: "equipmentLocation",
+            focus: ["Equipment pad"]
+          },
+          {
+            label: "Visible pool features and finish",
+            note: "Check skimmers, lights, fittings, drains, cracks, tile line, and finish condition.",
+            next: "visibleLocation",
+            focus: ["Visible pool feature"]
+          },
+          {
+            label: "Recent events and customer concern",
+            note: "Ask what changed and what worries the customer most.",
+            next: "recentChange",
+            focus: ["Context"]
+          }
+        ]
+      },
+      electricalStop: {
+        type: "outcome",
+        badge: "Stop and escalate",
+        tone: "red",
+        title: "Electrical safety comes before leak diagnosis.",
+        focus: ["Electrical safety", "Qualified evaluation"],
+        risk: "High",
+        takeaway: "Treat tingling, breaker/GFCI trips, water in electrical areas, loose lights, damaged wiring, and open electrical components as safety flags.",
+        questions: [
+          "Which breaker or GFCI tripped, and when?",
+          "Has anyone felt tingling in the water, on the deck, or near equipment?",
+          "Is water visible near lights, junction boxes, outlets, automation, or equipment wiring?",
+          "Has anyone removed a pool light or opened electrical components?"
+        ],
+        nextStep: "Stop leak work around that component and use approved electrical-safety procedure or qualified evaluation before continuing.",
+        customer: "Because this involves electrical safety, the safe next step is qualified evaluation before continuing leak repair work around that area."
+      },
+      equipmentOutcome: {
+        type: "outcome",
+        badge: "Equipment focus",
+        tone: "teal",
+        title: "Start at the equipment pad.",
+        focus: ["Pump", "Filter", "Heater", "Valves", "Unions"],
+        takeaway: "Visible water at the pad should be checked before assuming an underground or shell leak.",
+        questions: [
+          "Does the leak appear only when the pump runs?",
+          "Which component gets wet first?",
+          "Has filter pressure changed?",
+          "Was any equipment, valve, union, seal, or automation changed recently?"
+        ],
+        nextStep: "Inspect pump, filter, heater, valves, unions, waste line, and pad plumbing under operating conditions.",
+        customer: "I want to check the visible equipment first because an above-ground leak can look like overall pool water loss."
+      },
+      pumpEquipmentOutcome: {
+        type: "outcome",
+        badge: "Pump focus",
+        tone: "teal",
+        title: "Pump lid, seal, unions, or suction connection may be involved.",
+        focus: ["Pump lid", "Pump seal", "Unions", "Suction connection"],
+        takeaway: "Pump-area issues can show as water loss, air in the basket, poor prime, or wet equipment.",
+        questions: [
+          "Does the pump basket stay full while running?",
+          "Are bubbles visible under the pump lid?",
+          "Is water visible under the pump, at the seal, or at unions?",
+          "Did the pump recently get serviced or opened?"
+        ],
+        nextStep: "Inspect pump lid, gasket, drain plugs, seal area, unions, valves, and suction plumbing near the pad.",
+        customer: "The pump area can create both water and air clues, so I would verify that before moving to underground testing."
+      },
+      wasteLineOutcome: {
+        type: "outcome",
+        badge: "Waste path",
+        tone: "gold",
+        title: "Check whether water is leaving through a waste or drain route.",
+        focus: ["Waste line", "Backwash valve", "Drain path"],
+        takeaway: "A valve or waste line can send water away without looking like a classic shell leak.",
+        questions: [
+          "Is water visible at the waste outlet or drain route?",
+          "Was the filter recently backwashed or serviced?",
+          "Does the loss happen only during filtration?",
+          "Are valves fully seated and in the expected position?"
+        ],
+        nextStep: "Verify valve position, waste-line discharge, backwash valve condition, and filter operation.",
+        customer: "Before assuming the pool shell is leaking, I would confirm water is not being sent out through the equipment waste path."
+      },
+      pressureOutcome: {
+        type: "outcome",
+        badge: "Pressure side",
+        tone: "teal",
+        title: "Pressure-side plumbing or return features become a priority.",
+        focus: ["Return line", "Wall fitting", "Water feature", "Cleaner line"],
+        takeaway: "Pump-on loss can point toward pressure-side plumbing, return fittings, water features, or equipment.",
+        questions: [
+          "Which returns or features are active when the loss is worse?",
+          "Are there wet spots along the return route?",
+          "Was any return fitting, cleaner line, or feature recently repaired?",
+          "Does the loss change when a feature or valve is isolated?"
+        ],
+        nextStep: "Inspect visible fittings and features, then isolate or pressure test likely pressure-side lines under approved procedure.",
+        customer: "Because the loss is worse when water is being pushed through the system, the pressure side becomes a logical test path."
+      },
+      pressureIsolationOutcome: {
+        type: "outcome",
+        badge: "Pressure isolation",
+        tone: "teal",
+        title: "No visible pump-on leak means isolation matters.",
+        focus: ["Pressure-side isolation", "Return plumbing"],
+        takeaway: "If loss is pump-on and the pad is dry, targeted isolation can separate return plumbing from other causes.",
+        questions: [
+          "Which lines, returns, or features are active during the loss?",
+          "Are there any damp areas in the deck, soil, or along plumbing routes?",
+          "Can features or returns be isolated one at a time?",
+          "Has pressure testing been performed before?"
+        ],
+        nextStep: "Use visual inspection and targeted pressure testing or line isolation to narrow the pressure-side path.",
+        customer: "The next step is to isolate the parts of the system that are under pressure so we are not guessing."
+      },
+      suctionOutcome: {
+        type: "outcome",
+        badge: "Suction side",
+        tone: "gold",
+        title: "Air entry points toward suction-side review.",
+        focus: ["Skimmer line", "Main drain line", "Pump lid", "Suction valves"],
+        takeaway: "Air bubbles and poor prime often point toward air entering before the pump.",
+        questions: [
+          "Do bubbles appear at returns only when the pump runs?",
+          "Does the pump basket show air?",
+          "Does the pump lose prime after shutoff?",
+          "Have valves, pump lid, drain plugs, or suction plumbing been disturbed?"
+        ],
+        nextStep: "Inspect pump lid, seals, valves, suction fittings, and suction-side lines before assuming a pressure-side leak.",
+        customer: "The bubbles suggest air may be getting into the system before the pump, so I would check that side of the circulation path."
+      },
+      pumpPrimeOutcome: {
+        type: "outcome",
+        badge: "Prime issue",
+        tone: "gold",
+        title: "Poor prime is a suction and pump-area clue.",
+        focus: ["Pump basket", "Lid gasket", "Drain plugs", "Suction valves"],
+        takeaway: "A pump that will not stay full can point toward air entry, water level issues, blocked baskets, or suction-side conditions.",
+        questions: [
+          "Is the water level high enough for the skimmer?",
+          "Are baskets clean?",
+          "Does the pump basket fill fully after startup?",
+          "Did the issue begin after pump service or valve adjustment?"
+        ],
+        nextStep: "Check water level, baskets, lid gasket, plugs, valves, and suction-side air entry points.",
+        customer: "Prime issues can mimic leak symptoms, so I would verify pump and suction-side basics first."
+      },
+      skimmerOutcome: {
+        type: "outcome",
+        badge: "Skimmer",
+        tone: "teal",
+        title: "Skimmer throat, face, or related suction line is a strong suspect.",
+        focus: ["Skimmer throat", "Skimmer face", "Suction line"],
+        takeaway: "Skimmers are common leak areas because the shell and skimmer body can separate.",
+        questions: [
+          "Does the water loss slow near the skimmer mouth?",
+          "Are there cracks or gaps at the throat or face?",
+          "Are there air bubbles or suction-side symptoms?",
+          "Has the deck or skimmer area moved or settled?"
+        ],
+        nextStep: "Inspect the skimmer throat and face, dye test suspected openings when water is still, and isolate the suction line if needed.",
+        customer: "The skimmer is a common place for separation, so I would inspect and test that area instead of guessing across the whole pool."
+      },
+      lightOutcome: {
+        type: "outcome",
+        badge: "Light niche",
+        tone: "red",
+        title: "Light area needs leak thinking and electrical safety awareness.",
+        focus: ["Light niche", "Light conduit", "Electrical safety"],
+        risk: "Watch",
+        takeaway: "Lights can be leak paths, but electrical safety controls how the area is inspected or repaired.",
+        questions: [
+          "Does the water loss slow near the light?",
+          "Is the light loose, not working, or holding water?",
+          "Have any GFCI outlets or breakers tripped?",
+          "Has anyone removed the light or opened a junction box?"
+        ],
+        nextStep: "Use safety-aware procedure before work near the light, then inspect or dye test the niche or conduit only when appropriate.",
+        customer: "The light area can be related to water loss, but because it involves electrical components, safety procedure comes first."
+      },
+      fittingOutcome: {
+        type: "outcome",
+        badge: "Fitting",
+        tone: "teal",
+        title: "A fitting or shell penetration may need visual and dye confirmation.",
+        focus: ["Return fitting", "Drain fitting", "Step fitting", "Wall penetration"],
+        takeaway: "Fittings are places where materials meet, move, and seal.",
+        questions: [
+          "Does the level stop near the fitting?",
+          "Is the fitting cracked, loose, stained, or separated?",
+          "Does dye pull into the fitting when water is still?",
+          "Is the related plumbing suction-side or pressure-side?"
+        ],
+        nextStep: "Inspect the fitting, verify with dye when conditions are still, then decide whether plumbing isolation is needed.",
+        customer: "Because fittings pass through the pool shell, they are logical places to inspect and confirm before recommending repair."
+      },
+      shellOutcome: {
+        type: "outcome",
+        badge: "Shell",
+        tone: "teal",
+        title: "Separate concrete or gunite shell concerns from surface finish distress.",
+        focus: ["Concrete shell", "Gunite shell", "Structural crack", "Tile line"],
+        takeaway: "A crack can be a leak symptom and a structural clue, so the repair path depends on severity and cause.",
+        questions: [
+          "Is the crack open, moving, stained, or recurring?",
+          "Does dye movement confirm water leaving at the crack?",
+          "Is there deck movement, settlement, or recurring repair history?",
+          "Is the issue in the shell, tile line, coping, or only the finish layer?"
+        ],
+        nextStep: "Confirm whether the issue is a leak path, finish issue, or structural concern, then escalate structural concerns under approved procedure.",
+        customer: "A crack needs both leak thinking and repair judgment, because the repair depends on whether the shell or only the surface layer has failed."
+      },
+      finishOutcome: {
+        type: "outcome",
+        badge: "Finish",
+        tone: "gold",
+        title: "Finish or plaster distress is a repair-literacy conversation.",
+        focus: ["Plaster", "Finish bond", "Delamination", "Spall"],
+        takeaway: "Hollow sound, pop-offs, delamination, stains, and spalls may not be the same as a shell leak.",
+        questions: [
+          "Is the area hollow-sounding, loose, popped off, stained, or rough?",
+          "Is the issue isolated or widespread?",
+          "How old is the finish?",
+          "Was there recent plaster, patch, water chemistry change, or startup issue?"
+        ],
+        nextStep: "Determine whether the defect is isolated finish distress, bond failure, chemistry/startup issue, or a broader resurfacing concern.",
+        customer: "The visible finish is not the same as the structural shell, so I would separate appearance, bond, and leak evidence before recommending repair."
+      },
+      finishRecentOutcome: {
+        type: "outcome",
+        badge: "Recent finish work",
+        tone: "gold",
+        title: "Recent finish work changes the question set.",
+        focus: ["Startup", "Water balance", "Patch expectations", "Bond"],
+        takeaway: "New plaster, patches, and resurfacing need careful expectations around curing, brushing, chemistry, bond, and color match.",
+        questions: [
+          "When was the finish work completed?",
+          "Was the pool filled without interruption?",
+          "Were startup brushing and water-balance steps followed?",
+          "Is the concern color, texture, hollow sound, cracking, or water loss?"
+        ],
+        nextStep: "Separate finish appearance expectations from leak evidence and document startup, chemistry, and repair history.",
+        customer: "With recent finish work, I would separate normal appearance expectations, bond issues, and actual water-loss evidence."
+      },
+      constructionOutcome: {
+        type: "outcome",
+        badge: "Construction",
+        tone: "teal",
+        title: "Construction and layout shape the likely leak path.",
+        focus: ["Pool type", "Plumbing route", "Deck drainage", "Penetrations"],
+        takeaway: "Concrete/gunite, fiberglass, vinyl liner, and above-ground pools have different common leak points and repair paths.",
+        questions: [
+          "What type of pool is it?",
+          "Where are skimmers, drains, returns, lights, steps, and water features?",
+          "Are there deck drains, settlement, cracks, or washed-out areas?",
+          "Did deck or coping work happen before the symptom started?"
+        ],
+        nextStep: "Connect the symptom to pool type, nearby penetrations, plumbing route, drainage, and movement clues.",
+        customer: "The pool construction tells us which leak paths are most likely and what kind of repair makes sense."
+      },
+      weatherOutcome: {
+        type: "outcome",
+        badge: "Weather and usage",
+        tone: "gold",
+        title: "Account for conditions before calling it a leak.",
+        focus: ["Weather", "Usage", "Water features", "Autofill"],
+        takeaway: "Heat, wind, sun, splash-out, spillovers, features, and heavy use can create real water loss.",
+        questions: [
+          "Was the weather hot, windy, dry, or sunny?",
+          "Were water features, spa spillovers, or cleaners running longer?",
+          "Was there heavy swimming, splash-out, pets, or parties?",
+          "Is the autofill running more than usual?"
+        ],
+        nextStep: "Combine customer history, visible inspection, equipment checks, water-level behavior, and targeted testing before naming a leak.",
+        customer: "Some water loss can come from conditions and use, so I would account for that while still checking for visible leak clues."
+      },
+      autofillOutcome: {
+        type: "outcome",
+        badge: "Autofill",
+        tone: "gold",
+        title: "Autofill can hide the true loss rate.",
+        focus: ["Autofill", "Water-use history", "Level behavior"],
+        takeaway: "The pool may look stable while the autofill replaces lost water.",
+        questions: [
+          "Is the autofill running more often than normal?",
+          "Has the water bill changed?",
+          "Can the customer hear or see the fill valve cycling?",
+          "Does the pool level change when autofill behavior is accounted for?"
+        ],
+        nextStep: "Document autofill behavior, inspect visible leak clues, and use targeted testing instead of relying on water level alone.",
+        customer: "The autofill can make the pool look normal while it replaces water, so I would treat that as an important clue."
+      },
+      staticOutcome: {
+        type: "outcome",
+        badge: "Static review",
+        tone: "teal",
+        title: "Static loss needs a vessel-focused review.",
+        focus: ["Shell", "Fittings", "Skimmer", "Light", "Tile line"],
+        takeaway: "Pump-off loss points toward the pool vessel and penetrations more than active pressure-side plumbing.",
+        questions: [
+          "Does the level stop near any feature?",
+          "Are skimmers, lights, returns, drains, tile line, steps, or cracks suspect?",
+          "Is the pool concrete/gunite, fiberglass, vinyl, or above-ground?",
+          "Has the shell, deck, or finish changed recently?"
+        ],
+        nextStep: "Inspect vessel penetrations and visible shell/finish areas, then dye test specific targets when conditions are still.",
+        customer: "Because the loss happens while the system is off, I would look closely at the pool vessel and its penetrations."
+      },
+      generalIsolationOutcome: {
+        type: "outcome",
+        badge: "General isolation",
+        tone: "teal",
+        title: "No visible clue means the workflow matters.",
+        focus: ["Inspection", "System isolation", "Documentation"],
+        takeaway: "When there is no obvious target, the safest answer is a documented process of elimination.",
+        questions: [
+          "When did the loss start and what changed?",
+          "How much water is being added?",
+          "Does pump-on or pump-off behavior change anything?",
+          "Are there hidden wet areas, settlement, stains, or equipment clues?"
+        ],
+        nextStep: "Move through equipment inspection, water-level behavior, visible pool features, and line isolation as evidence develops.",
+        customer: "I do not want to guess. I would work through the system in order and document what the evidence points to."
+      },
+      markLevelOutcome: {
+        type: "outcome",
+        badge: "Document level",
+        tone: "teal",
+        title: "Document the stopping point and connect it to nearby features.",
+        focus: ["Water-level behavior", "Feature elevation"],
+        takeaway: "The elevation where loss slows can point toward the next inspection target.",
+        questions: [
+          "What feature is closest to the water level where loss slows?",
+          "Did the customer mark the level or take photos?",
+          "Was the pump on or off during the change?",
+          "Were rain, splash-out, autofill, or water features involved?"
+        ],
+        nextStep: "Record the level, inspect nearby penetrations, and choose targeted visual, dye, or isolation testing.",
+        customer: "The point where the level slows can help us choose the next inspection area instead of searching randomly."
+      },
+      recentEquipmentOutcome: {
+        type: "outcome",
+        badge: "Recent equipment",
+        tone: "gold",
+        title: "Recent equipment work should be checked before broader assumptions.",
+        focus: ["Valves", "Unions", "Pump", "Automation", "Pump speed"],
+        takeaway: "Changes in equipment, valves, automation, or pump speed can change symptoms.",
+        questions: [
+          "What equipment or setting changed?",
+          "Did the symptom start immediately after the work?",
+          "Were unions, lids, drain plugs, valves, or seals opened?",
+          "Did pump speed, schedule, or water-feature operation change?"
+        ],
+        nextStep: "Review the recent work area, operating settings, seals, valves, and connections before moving to unrelated leak paths.",
+        customer: "Because the symptom started after equipment changes, I would verify that work area and system settings first."
+      }
+    };
+
+    const state = {
+      current: "safety",
+      path: [],
+      focus: [],
+      risk: "Base",
+      outcome: null
+    };
+
+    const treePanel = document.getElementById("treePanel");
+    const pathList = document.getElementById("pathList");
+    const summaryOutput = document.getElementById("summaryOutput");
+    const copyNote = document.getElementById("copyNote");
+    const toast = document.getElementById("toast");
+
+    function unique(values) {
+      return [...new Set(values.filter(Boolean))];
+    }
+
+    function iconForTone(tone) {
+      if (tone === "red") return "shield-alert";
+      if (tone === "gold") return "route";
+      return "search-check";
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function answerNode(answer) {
+      state.path.push({
+        from: state.current,
+        question: tree[state.current].question,
+        answer: answer.label,
+        note: answer.note || "",
+        focus: answer.focus || [],
+        risk: answer.risk || null
+      });
+      state.focus = unique([...state.focus, ...(answer.focus || [])]);
+      if (answer.risk === "High") state.risk = "High";
+      else if (answer.risk === "Watch" && state.risk !== "High") state.risk = "Watch";
+      state.current = answer.next;
+      const node = tree[state.current];
+      state.outcome = node && node.type === "outcome" ? node : null;
+      if (state.outcome) {
+        state.focus = unique([...state.focus, ...(state.outcome.focus || [])]);
+        if (state.outcome.risk === "High") state.risk = "High";
+        else if (state.outcome.risk === "Watch" && state.risk !== "High") state.risk = "Watch";
+      }
+      render();
+    }
+
+    function back() {
+      if (!state.path.length) return;
+      state.path.pop();
+      rebuildFromPath();
+      render();
+    }
+
+    function rebuildFromPath() {
+      const saved = [...state.path];
+      state.current = "safety";
+      state.path = [];
+      state.focus = [];
+      state.risk = "Base";
+      state.outcome = null;
+      for (const step of saved) {
+        const node = tree[state.current];
+        const answer = node.answers.find(item => item.label === step.answer);
+        if (!answer) break;
+        answerNodeWithoutRender(answer);
+      }
+    }
+
+    function answerNodeWithoutRender(answer) {
+      state.path.push({
+        from: state.current,
+        question: tree[state.current].question,
+        answer: answer.label,
+        note: answer.note || "",
+        focus: answer.focus || [],
+        risk: answer.risk || null
+      });
+      state.focus = unique([...state.focus, ...(answer.focus || [])]);
+      if (answer.risk === "High") state.risk = "High";
+      else if (answer.risk === "Watch" && state.risk !== "High") state.risk = "Watch";
+      state.current = answer.next;
+      const node = tree[state.current];
+      state.outcome = node && node.type === "outcome" ? node : null;
+      if (state.outcome) {
+        state.focus = unique([...state.focus, ...(state.outcome.focus || [])]);
+        if (state.outcome.risk === "High") state.risk = "High";
+        else if (state.outcome.risk === "Watch" && state.risk !== "High") state.risk = "Watch";
+      }
+    }
+
+    function reset() {
+      state.current = "safety";
+      state.path = [];
+      state.focus = [];
+      state.risk = "Base";
+      state.outcome = null;
+      copyNote.textContent = "";
+      render();
+    }
+
+    function renderQuestion(node) {
+      treePanel.innerHTML = `
+        <div class="question-meta">
+          <span class="badge ${node.tone || "teal"}">${escapeHtml(node.badge)}</span>
+          <span class="badge">Question ${state.path.length + 1}</span>
+        </div>
+        <h2>${escapeHtml(node.question)}</h2>
+        <p class="question-copy">${escapeHtml(node.detail)}</p>
+        <div class="answer-grid">
+          ${node.answers.map((answer, index) => `
+            <button class="answer-button ${index === 0 ? "primary" : ""}" type="button" data-answer="${index}">
+              <i data-lucide="${iconForTone(answer.risk === "High" ? "red" : node.tone)}" class="icon" aria-hidden="true"></i>
+              <span>
+                <strong>${escapeHtml(answer.label)}</strong>
+                <span>${escapeHtml(answer.note)}</span>
+              </span>
+            </button>
+          `).join("")}
+        </div>
+      `;
+      treePanel.querySelectorAll("[data-answer]").forEach(button => {
+        button.addEventListener("click", () => {
+          answerNode(node.answers[Number(button.dataset.answer)]);
+        });
+      });
+    }
+
+    function renderOutcome(node) {
+      treePanel.innerHTML = `
+        <div class="question-meta">
+          <span class="badge ${node.tone || "teal"}">${escapeHtml(node.badge)}</span>
+          <span class="badge">Recommendation focus</span>
+        </div>
+        <h2>${escapeHtml(node.title)}</h2>
+        <p class="question-copy">${escapeHtml(node.takeaway)}</p>
+        <div class="outcome-band">
+          <div class="outcome-box ${node.risk === "High" ? "alert" : ""}">
+            <strong><i data-lucide="${node.risk === "High" ? "shield-alert" : "crosshair"}" class="icon" aria-hidden="true"></i>Next technical step</strong>
+            <p>${escapeHtml(node.nextStep)}</p>
+          </div>
+          <div class="outcome-box">
+            <strong><i data-lucide="message-square-text" class="icon" aria-hidden="true"></i>Customer framing</strong>
+            <p>${escapeHtml(node.customer)}</p>
+          </div>
+          <div class="outcome-box">
+            <strong><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Questions to ask next</strong>
+            <ul>${node.questions.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          </div>
+        </div>
+        <div class="button-row" style="justify-content:flex-start; margin-top:18px;">
+          <button class="text-button" type="button" id="continueBroad"><i data-lucide="search" class="icon" aria-hidden="true"></i>Ask another branch</button>
+          <button class="text-button primary" type="button" id="copyOutcome"><i data-lucide="copy" class="icon" aria-hidden="true"></i>Copy summary</button>
+        </div>
+      `;
+      document.getElementById("continueBroad").addEventListener("click", () => {
+        state.current = "primaryConcern";
+        state.outcome = null;
+        render();
+      });
+      document.getElementById("copyOutcome").addEventListener("click", copySummary);
+    }
+
+    function renderPath() {
+      if (!state.path.length) {
+        pathList.innerHTML = `<div class="empty-note">No answers captured yet.</div>`;
+        return;
+      }
+      pathList.innerHTML = state.path.map((step, index) => `
+        <div class="path-item">
+          <span class="path-index">${String(index + 1).padStart(2, "0")}</span>
+          <span>
+            <strong>${escapeHtml(step.answer)}</strong>
+            <span>${escapeHtml(step.note)}</span>
+          </span>
+        </div>
+      `).join("");
+    }
+
+    function summaryText() {
+      const focus = unique([...state.focus, ...(state.outcome?.focus || [])]);
+      const questions = state.outcome?.questions || tree[state.current]?.answers?.map(answer => answer.label) || [];
+      const concern = state.path.length
+        ? state.path.map(step => `${step.question} ${step.answer}.`).join(" ")
+        : "No customer answers captured yet.";
+      const next = state.outcome?.nextStep || "Continue customer intake and choose the next branch based on the strongest clue.";
+      const customer = state.outcome?.customer || "I am going to use the answers to narrow the problem before recommending a repair path.";
+      return [
+        "Pool Leak Detection Intake Summary",
+        "",
+        `Reported path: ${concern}`,
+        `Risk level: ${state.risk}`,
+        `Diagnostic focus: ${focus.length ? focus.join(", ") : "Not narrowed yet"}`,
+        `Next technical step: ${next}`,
+        `Customer framing: ${customer}`,
+        "",
+        "Questions to ask next:",
+        ...questions.map(item => `- ${item}`)
+      ].join("\n");
+    }
+
+    function renderSummary() {
+      const focus = unique([...state.focus, ...(state.outcome?.focus || [])]);
+      const nextQuestions = state.outcome?.questions || [];
+      const pathText = state.path.length
+        ? state.path[state.path.length - 1].note
+        : "Start with the safety question, then choose the strongest customer clue.";
+      const nextStep = state.outcome?.nextStep || "Continue the tree until the strongest technical path is clear.";
+      const customer = state.outcome?.customer || "I am going to narrow this from your answers before recommending a repair path.";
+      summaryOutput.innerHTML = `
+        <div class="summary-section">
+          <strong>Current read</strong>
+          <p>${escapeHtml(pathText)}</p>
+        </div>
+        <div class="summary-section">
+          <strong>Focus areas</strong>
+          <p>${focus.length ? escapeHtml(focus.join(", ")) : "Not narrowed yet"}</p>
+        </div>
+        <div class="summary-section">
+          <strong>Next technical step</strong>
+          <p>${escapeHtml(nextStep)}</p>
+        </div>
+        <div class="summary-section">
+          <strong>Customer framing</strong>
+          <p>${escapeHtml(customer)}</p>
+        </div>
+        <div class="summary-section">
+          <strong>Questions next</strong>
+          ${nextQuestions.length ? `<ul>${nextQuestions.slice(0, 4).map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : `<p>Choose the next answer to build the question list.</p>`}
+        </div>
+      `;
+      document.getElementById("stepCount").textContent = state.path.length;
+      document.getElementById("riskLevel").textContent = state.risk;
+      document.getElementById("focusCount").textContent = focus.length;
+      document.getElementById("nextCount").textContent = nextQuestions.length || tree[state.current]?.answers?.length || 0;
+    }
+
+    async function copySummary() {
+      const text = summaryText();
+      try {
+        await navigator.clipboard.writeText(text);
+        copyNote.textContent = "Summary copied.";
+        showToast("Summary copied.");
+      } catch (error) {
+        copyNote.textContent = "Copy unavailable in this browser.";
+        showToast("Copy unavailable. Select and copy manually.");
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function render() {
+      const node = tree[state.current];
+      if (!node) {
+        state.current = "safety";
+        return render();
+      }
+      if (node.type === "outcome") renderOutcome(node);
+      else renderQuestion(node);
+      renderPath();
+      renderSummary();
+      document.getElementById("backButton").disabled = !state.path.length;
+      refreshIcons();
+    }
+
+    document.getElementById("startTree").addEventListener("click", () => {
+      document.getElementById("treePanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    document.getElementById("backButton").addEventListener("click", back);
+    document.getElementById("resetTree").addEventListener("click", reset);
+    document.getElementById("resetTop").addEventListener("click", reset);
+    document.getElementById("copySummary").addEventListener("click", copySummary);
+    document.getElementById("copySummaryTop").addEventListener("click", copySummary);
+
+    render();
+  </script>
+</body>
+</html>
