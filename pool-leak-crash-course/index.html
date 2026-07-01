@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="An interactive interview crash course for learning pool leak detection basics, technician logic, and customer communication.">
+  <meta name="description" content="An interactive technical course for learning pool leak detection basics, repair literacy, safety awareness, and customer education.">
   <link rel="canonical" href="https://cerbone.me/pool-leak-crash-course/">
   <title>Pool Leak Detection Crash Course</title>
   <style>
@@ -989,7 +989,7 @@
       font-size: 1.02rem;
     }
 
-    .interview-builder {
+    .explanation-builder {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
@@ -1133,7 +1133,7 @@
       .module-list,
       .module-hero,
       .field-grid,
-      .interview-builder,
+      .explanation-builder,
       .source-list {
         grid-template-columns: 1fr;
       }
@@ -1171,7 +1171,7 @@
       <div class="brand-mark">PL</div>
       <div class="brand-text">
         <p class="brand-title">Pool Leak Detection Crash Course</p>
-        <p class="brand-subtitle">Interview prep and accelerated learning</p>
+        <p class="brand-subtitle">Technical training and customer education</p>
       </div>
     </div>
     <nav class="top-actions" aria-label="Course sections">
@@ -1185,17 +1185,17 @@
   <main class="app-shell">
     <section class="intro" aria-labelledby="course-title">
       <div class="intro-main">
-        <p class="eyebrow">Goal: sound informed, trainable, and useful</p>
+        <p class="eyebrow">Goal: understand, diagnose, explain</p>
         <h1 id="course-title">Walk in thinking like a leak technician.</h1>
-        <p class="intro-copy">This crash course turns the outline into an interview-ready learning program. You do not need to become an expert overnight. You need a clear mental model, a few reliable phrases, and enough diagnostic logic to sound like someone who can be trained.</p>
+        <p class="intro-copy">This course builds a clear mental model for pool circulation, leak diagnostics, repair categories, safety awareness, and customer education. The goal is to understand the sequence, not memorize a script.</p>
         <div class="top-actions">
           <button class="text-button primary" type="button" id="startCourse"><i data-lucide="play" class="icon" aria-hidden="true"></i>Start course</button>
-          <a class="text-button secondary" href="#interview"><i data-lucide="message-square" class="icon" aria-hidden="true"></i>Practice answers</a>
+          <a class="text-button secondary" href="#customer-education"><i data-lucide="message-square" class="icon" aria-hidden="true"></i>Explain findings</a>
         </div>
         <div class="goal-strip" aria-label="Learning goals">
           <div class="goal-chip"><strong>Pool systems</strong><span>Know the water path and main equipment.</span></div>
           <div class="goal-chip"><strong>Leak logic</strong><span>Confirm, isolate, narrow, verify, explain.</span></div>
-          <div class="goal-chip"><strong>Core tests</strong><span>Bucket, dye, pressure, and observation.</span></div>
+          <div class="goal-chip"><strong>Core tests</strong><span>Observation, dye, pressure, and isolation.</span></div>
           <div class="goal-chip"><strong>Customer trust</strong><span>Translate findings without sounding vague.</span></div>
         </div>
         <div class="pool-visual" aria-hidden="true"></div>
@@ -1204,8 +1204,8 @@
       <aside class="readiness" aria-labelledby="readiness-title">
         <div>
           <p class="eyebrow">Readiness meter</p>
-          <h2 id="readiness-title">Interview confidence</h2>
-          <p class="readiness-note">Complete modules and pass the quiz to build your talking points.</p>
+          <h2 id="readiness-title">Technical readiness</h2>
+          <p class="readiness-note">Complete modules and pass the quiz to build your diagnostic map.</p>
         </div>
         <div class="progress-shell" aria-label="Course completion">
           <div class="progress-fill" id="progressFill"></div>
@@ -1216,7 +1216,7 @@
           <div class="metric"><strong id="flashCount">0</strong><span>Terms flipped</span></div>
         </div>
         <ul class="fact-list">
-          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Bucket tests compare pool loss against evaporation.</span></li>
+          <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Route calls rely on fast triage, inspection, and isolation.</span></li>
           <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Dye testing confirms suspected structural leak points.</span></li>
           <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Pressure testing isolates underground plumbing lines.</span></li>
           <li><i data-lucide="check-circle-2" class="icon" aria-hidden="true"></i><span>Great techs diagnose, educate, reassure, and recommend.</span></li>
@@ -1238,25 +1238,35 @@
     <section class="tool-grid" id="tools" aria-label="Practice tools">
       <article class="tool-panel">
         <p class="eyebrow">Practice tool</p>
-        <h2><i data-lucide="droplets" class="icon" aria-hidden="true"></i>Bucket Test Simulator</h2>
-        <p>Enter a 24-hour result. The point is not exact math heroics. It is learning what the comparison means.</p>
+        <h2><i data-lucide="droplets" class="icon" aria-hidden="true"></i>Water Loss Review</h2>
+        <p>Use route-practical clues that can be gathered during a service call without waiting 24-48 hours.</p>
         <div class="field-grid">
           <div class="field">
-            <label for="poolLoss">Pool drop, inches</label>
-            <input id="poolLoss" type="number" min="0" step="0.125" value="0.5">
+            <label for="lossPattern">Loss pattern</label>
+            <select id="lossPattern">
+              <option value="constant">Customer reports steady daily loss</option>
+              <option value="pumpOn">Loss appears worse with pump running</option>
+              <option value="pumpOff">Loss appears worse with pump off</option>
+              <option value="featureLevel">Water drops to a feature and slows</option>
+            </select>
           </div>
           <div class="field">
-            <label for="bucketLoss">Bucket drop, inches</label>
-            <input id="bucketLoss" type="number" min="0" step="0.125" value="0.125">
+            <label for="visibleClue">Visible clue</label>
+            <select id="visibleClue">
+              <option value="none">No obvious visible leak</option>
+              <option value="equipment">Wet equipment pad</option>
+              <option value="bubbles">Air bubbles or poor prime</option>
+              <option value="crack">Crack, fitting, light, or skimmer concern</option>
+            </select>
           </div>
         </div>
-        <div class="result-box" id="bucketResult"></div>
+        <div class="result-box" id="waterLossResult"></div>
       </article>
 
       <article class="tool-panel">
         <p class="eyebrow">Practice tool</p>
         <h2><i data-lucide="split" class="icon" aria-hidden="true"></i>Leak Triage</h2>
-        <p>Pick the strongest clue. The tool returns the line of thinking you can say out loud in an interview.</p>
+        <p>Pick the strongest clue. The tool returns the diagnostic thinking and customer-friendly explanation.</p>
         <div class="field">
           <label for="symptomSelect">Customer clue</label>
           <select id="symptomSelect">
@@ -1290,35 +1300,35 @@
     <section class="quiz-layout" id="quiz" aria-label="Knowledge check">
       <article class="quiz-panel">
         <p class="eyebrow">Knowledge check</p>
-        <h2><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Interview Readiness Quiz</h2>
-        <p>Answer the questions without looking at the modules. A strong interview target is 10 or better.</p>
+        <h2><i data-lucide="list-checks" class="icon" aria-hidden="true"></i>Technical Knowledge Check</h2>
+        <p>Answer the questions without looking at the modules. A strong target is 12 or better.</p>
         <div id="quizQuestions"></div>
       </article>
       <aside class="quiz-panel">
         <div class="quiz-score">
-          <strong id="quizScoreLarge">0/12</strong>
+          <strong id="quizScoreLarge">0/14</strong>
           <p id="quizMessage">Answer the quiz to see your readiness.</p>
         </div>
         <div class="callout gold" style="margin-top: 16px;">
           <strong>Six facts to memorize</strong>
-          <p>Pools evaporate. Bucket tests separate evaporation from leaks. Pressure testing checks plumbing. Dye testing confirms visible leak points. Shell and finish defects are different repair conversations. Good techs think like detectives.</p>
+          <p>Pools evaporate, but route calls need faster evidence. Pressure testing checks plumbing. Dye testing confirms visible leak points. Pump-on and pump-off clues matter. Shell and finish defects are different repair conversations. Good techs think like detectives.</p>
         </div>
       </aside>
     </section>
 
-    <section class="tool-panel" id="interview" aria-labelledby="interview-title">
-      <p class="eyebrow">Interview mode</p>
-      <h2 id="interview-title"><i data-lucide="message-square-text" class="icon" aria-hidden="true"></i>Answer Builder</h2>
-      <div class="interview-builder">
+    <section class="tool-panel" id="customer-education" aria-labelledby="customer-education-title">
+      <p class="eyebrow">Customer education</p>
+      <h2 id="customer-education-title"><i data-lucide="message-square-text" class="icon" aria-hidden="true"></i>Explanation Builder</h2>
+      <div class="explanation-builder">
         <div>
-          <p>Use this to build a natural answer. Keep it conversational. You are signaling curiosity, operations judgment, and willingness to learn the trade.</p>
+          <p>Use this to translate technical findings into plain language. The structure is concern, test, result, meaning, and next step.</p>
           <div class="field">
-            <label for="answerFocus">Choose your angle</label>
+            <label for="answerFocus">Choose the situation</label>
             <select id="answerFocus">
-              <option value="problem">Technical problem-solving</option>
-              <option value="customer">Customer communication</option>
-              <option value="operations">Operations background</option>
-              <option value="training">Trainability and growth</option>
+              <option value="problem">Diagnostic sequence</option>
+              <option value="customer">Customer explanation</option>
+              <option value="operations">Repair recommendation</option>
+              <option value="training">Safety escalation</option>
             </select>
           </div>
         </div>
@@ -1329,12 +1339,8 @@
     <section class="source-panel" id="sources" aria-labelledby="sources-title">
       <p class="eyebrow">References</p>
       <h2 id="sources-title"><i data-lucide="link" class="icon" aria-hidden="true"></i>Source Notes</h2>
-      <p>This training is interview preparation, not a substitute for field training, licensing, electrical safety procedures, or company SOPs. Pressure testing, diving, excavation, and pool-light work should be performed only by trained and authorized technicians.</p>
+      <p>This training is educational material, not a substitute for field training, licensing, electrical safety procedures, or approved service procedures. Pressure testing, diving, excavation, and pool-light work should be performed only by trained and authorized technicians.</p>
       <ul class="source-list">
-        <li>
-          <strong><a href="https://www.americanleakdetection.com/diy-leak-tests/bucket-test/">American Leak Detection: Bucket Test</a></strong>
-          <p>Used for the bucket test procedure and interpretation.</p>
-        </li>
         <li>
           <strong><a href="https://www.leaktools.com/pressure-test-plumbing.html">Anderson Manufacturing: Pressure Test Plumbing</a></strong>
           <p>Used for pressure testing as a process-of-elimination method for structure vs. plumbing leaks.</p>
@@ -1351,6 +1357,10 @@
           <strong><a href="https://www.nptpool.com/pool-finishes/start-up-procedure/">NPT: Pool Finish Startup Procedure</a></strong>
           <p>Used for startup concepts after new plaster: fill discipline, brushing, water balance, and the 28-day care window.</p>
         </li>
+        <li>
+          <strong><a href="https://www.esfi.org/pool-and-spa-safety/">Electrical Safety Foundation International: Pool and Spa Safety</a></strong>
+          <p>Used for general electrical safety awareness around pools, including GFCI, grounding, and keeping outdoor receptacles dry.</p>
+        </li>
       </ul>
     </section>
   </main>
@@ -1364,7 +1374,7 @@
         title: "Pool Systems 101",
         time: "8 min",
         badge: "Foundation",
-        summary: "A pool is a contained body of water connected to circulation plumbing. Your first interview win is being able to trace the water path without getting lost.",
+        summary: "A pool is a contained body of water connected to circulation plumbing. The first technical goal is being able to trace the water path without getting lost.",
         phrase: "I understand the basic circulation path: pool water is pulled through suction points, moved by the pump, cleaned by the filter, optionally heated, and returned through jets.",
         bullets: [
           "Skimmers pull surface water and debris into the suction side. Common leak points include cracked skimmer throats and separation from the pool shell.",
@@ -1385,6 +1395,32 @@
           why: "Water is pulled from the pool by skimmers/main drains, moved by the pump, filtered, optionally heated, and returned."
         },
         visual: "flow"
+      },
+      {
+        title: "Pool Circulation Anatomy",
+        time: "8 min",
+        badge: "Anatomy",
+        summary: "Pool circulation is easiest to understand as a path: suction points pull water toward the pump, equipment treats the water, and return lines send it back to the vessel.",
+        phrase: "Water leaves through suction points, gets moved by the pump, passes through filtration/treatment, and returns through jets.",
+        bullets: [
+          "Main drains and skimmers are suction points that feed water toward the pump.",
+          "The pump creates flow; the filter removes suspended debris.",
+          "Heaters and sanitation systems are treatment components on the equipment side.",
+          "Return lines and jets send treated water back into the pool.",
+          "Leak clues often depend on where water loss, air entry, or visible moisture appears in this sequence."
+        ],
+        thinking: [
+          "Name the component, then name its job.",
+          "Separate suction-side clues from pressure-side clues.",
+          "Customer framing: explain the water path first, then explain which part of the path the test is isolating."
+        ],
+        quiz: {
+          q: "Which components are typically on the suction side before the pump?",
+          options: ["Skimmer and main drain", "Heater and sanitizer", "Return jets and chlorinator"],
+          answer: 0,
+          why: "Skimmers and main drains pull water toward the pump, so they are suction-side components."
+        },
+        visual: "anatomy"
       },
       {
         title: "Understanding Water Loss",
@@ -1413,32 +1449,6 @@
         visual: "loss"
       },
       {
-        title: "The Bucket Test",
-        time: "8 min",
-        badge: "First test",
-        summary: "The bucket test compares pool water loss against a small control sample exposed to the same weather. It is one of the simplest ways to separate evaporation from leaking.",
-        phrase: "The bucket test helps distinguish evaporation from actual pool loss by comparing the pool level to a bucket of pool water over about 24 hours.",
-        bullets: [
-          "Bring the pool to normal operating level and turn off autofill.",
-          "Put pool water in a bucket and place the bucket on a step so it sits in the same conditions.",
-          "Mark the water level inside the bucket and the pool level outside the bucket.",
-          "Compare after about 24 hours. Rain or a long delay can make the test unreliable.",
-          "If the pool drops more than the bucket, the extra drop is evidence of a likely leak."
-        ],
-        thinking: [
-          "The bucket is the control. Both should evaporate similarly.",
-          "The test confirms likely leaking; it does not locate the leak.",
-          "A positive bucket test sends the technician into isolation and location work."
-        ],
-        quiz: {
-          q: "In a bucket test, what does it mean if the pool drops more than the bucket?",
-          options: ["Likely leak beyond evaporation", "Normal evaporation only", "The filter is definitely broken"],
-          answer: 0,
-          why: "The bucket accounts for evaporation. Extra pool drop points to water leaving somewhere else."
-        },
-        visual: "bucket"
-      },
-      {
         title: "Leak Detection Logic",
         time: "9 min",
         badge: "Detective work",
@@ -1457,7 +1467,7 @@
           "Confidence comes from sequence, not bravado."
         ],
         quiz: {
-          q: "What is the safest interview framing for leak detection?",
+          q: "What is the safest technical framing for leak detection?",
           options: ["A systematic diagnostic process", "A quick guess based on the first visible crack", "A repair-first trade where testing is optional"],
           answer: 0,
           why: "The strongest signal is that you understand methodical diagnosis."
@@ -1475,7 +1485,7 @@
           "Poor use: broad unexplained water loss with no suspected area, moving water, wind, or hidden underground plumbing.",
           "A positive result looks like dye being pulled into a specific opening rather than drifting randomly.",
           "Dye can support a repair recommendation, but weak or confusing movement may require another test.",
-          "Pool lights involve electrical safety. An interview answer should show caution and respect for training."
+          "Pool lights involve electrical safety. Inspection or repair should follow approved electrical-safety procedure."
         ],
         thinking: [
           "Dye confirms a suspected location; it does not magically search the whole pool.",
@@ -1558,7 +1568,7 @@
         thinking: [
           "Separate cosmetic symptom from structural cause.",
           "A leak at a crack should trigger both leak thinking and structural thinking.",
-          "The interview-safe answer is: I would follow company procedure and escalate structural concerns rather than freelancing a repair."
+          "The procedure-safe answer is to follow approved repair steps and escalate structural concerns rather than freelancing a repair."
         ],
         quiz: {
           q: "What is the key distinction in concrete or gunite repair thinking?",
@@ -1595,80 +1605,132 @@
         visual: "finishRepair"
       },
       {
-        title: "Customer Psychology",
+        title: "Construction and Layout Basics",
         time: "8 min",
-        badge: "Trust",
-        summary: "Customers are often frustrated, anxious, and confused. The technician's job is technical and emotional: diagnose, educate, reassure, and recommend.",
-        phrase: "I would want the customer to understand what I tested, what I found, what it means, and what the next step is, without making them feel talked down to.",
+        badge: "Layout",
+        summary: "Construction type, shell material, finish system, and plumbing layout change how leak clues should be interpreted and how repairs should be framed.",
+        phrase: "The pool's construction tells us where leaks are most likely and what kind of repair path makes sense.",
         bullets: [
-          "Customers may already have spent money or heard conflicting opinions.",
-          "A calm explanation is part of the service, not a bonus.",
-          "Specifics build trust: name the test, the result, and the next step.",
-          "Avoid vague conclusions like, 'You need repairs.' Explain the evidence.",
-          "Good communication can turn a stressful house call into a confident repair decision."
+          "Concrete/gunite pools use a reinforced shell with plaster, quartz, pebble, or similar finish.",
+          "Fiberglass pools use a factory-made shell set into prepared excavation and backfill.",
+          "Vinyl liner pools rely on a liner, seams, track, faceplates, and gasketed fittings.",
+          "Above-ground pools often have exposed equipment, shorter plumbing runs, walls, liners, and gasketed penetrations.",
+          "Plan-reading starts with suction points, return paths, shell penetrations, equipment location, deck drainage, and settlement clues."
         ],
         thinking: [
-          "Start with what the customer cares about: stop water loss and avoid surprises.",
-          "Translate test results into plain English.",
-          "Use certainty carefully. Say what is confirmed and what is likely."
+          "A concrete shell crack, vinyl liner tear, fiberglass fitting leak, and equipment leak can all lose water, but they do not share the same repair expectation.",
+          "Connect each visible symptom to the nearest component or plumbing route before recommending repair.",
+          "Customer framing: construction type explains why one repair path is more likely than another."
         ],
         quiz: {
-          q: "Which customer explanation is stronger?",
-          options: ["I pressure tested the return line, saw pressure loss, and the next step is locating and repairing that line.", "You need repairs.", "The pool is bad."],
+          q: "Why does pool construction type matter in leak diagnosis?",
+          options: ["Different pool types have different likely leak points and repair paths", "It only changes the water color", "It makes plumbing tests unnecessary"],
+          answer: 0,
+          why: "Construction type affects likely leak locations, repair methods, and customer expectations."
+        },
+        visual: "construction"
+      },
+      {
+        title: "Electrical Safety Awareness",
+        time: "9 min",
+        badge: "Safety",
+        summary: "Water and electricity are a high-risk combination. Pool lights, junction boxes, bonding, grounding, GFCI protection, heaters, and automation require safety-aware escalation.",
+        phrase: "If a leak concern touches electrical components, the safe next step is qualified evaluation before continuing repair work around that component.",
+        bullets: [
+          "Bonding connects conductive pool parts together so voltage differences are reduced.",
+          "Grounding provides a fault path back to the electrical system grounding point.",
+          "GFCI protection trips when current leaks from the intended path; trips are safety clues, not annoyances to ignore.",
+          "Junction boxes and light conduits can be leak paths and electrical safety concerns at the same time.",
+          "Do not remove pool lights, covers, or junction-box components unless trained and authorized."
+        ],
+        thinking: [
+          "Treat tripped breakers, tingling sensations, corrosion, heat, or water in electrical areas as safety flags.",
+          "Confirm approved isolation and lockout procedure before leak or repair work near lights or equipment.",
+          "Customer framing: electrical safety must be resolved before leak repair proceeds in that area."
+        ],
+        quiz: {
+          q: "What should happen when a suspected leak involves pool lights or electrical components?",
+          options: ["Stop and escalate under approved electrical-safety procedure", "Ignore the electrical issue and keep testing", "Remove the light without training"],
+          answer: 0,
+          why: "Pool electrical work requires qualified evaluation and approved safety procedure."
+        },
+        visual: "electrical"
+      },
+      {
+        title: "Communicating Technical Findings",
+        time: "8 min",
+        badge: "Customer education",
+        summary: "Technical findings should be communicated clearly and specifically. The goal is to explain the evidence, the likely cause, and the repair path without vague conclusions.",
+        phrase: "A strong technical explanation names what was tested, what was observed, what it indicates, and what should happen next.",
+        bullets: [
+          "Clear documentation reduces confusion and supports better repair decisions.",
+          "Specifics matter: name the test, the result, and the next step.",
+          "Avoid vague conclusions like, 'repairs are needed.' Explain the evidence.",
+          "Distinguish confirmed findings from likely findings.",
+          "A good report turns field observations into an understandable repair recommendation."
+        ],
+        thinking: [
+          "Start with the water loss or defect being investigated.",
+          "Translate test results into plain English.",
+          "Use certainty carefully. Separate what is confirmed from what requires further evaluation."
+        ],
+        quiz: {
+          q: "Which technical explanation is strongest?",
+          options: ["The return line was pressure tested, pressure loss was observed, and the next step is locating and repairing that line.", "Repairs are needed.", "The pool is bad."],
           answer: 0,
           why: "The strongest explanation names the test, result, and next step."
         },
         visual: "customer"
       },
       {
-        title: "Service Business Context",
+        title: "Documentation and Repair Recommendations",
         time: "7 min",
-        badge: "Company fit",
-        summary: "A leak detection visit is usually part diagnosis, part customer education, and part repair recommendation. In an interview, connect your answers to that full customer journey without relying on any employer-specific language.",
-        phrase: "What interests me is that the role combines field diagnosis, customer education, and a practical repair path, not just finding a problem and leaving the customer confused.",
+        badge: "Documentation",
+        summary: "A complete leak detection workflow connects evidence to documentation and a practical repair recommendation. The technical record should make the next step clear.",
+        phrase: "A strong workflow moves from observed concern to test evidence, likely cause, recommended repair path, and follow-up verification.",
         bullets: [
-          "A strong service call moves from concern to evidence to next step.",
-          "Customers need simple explanations, not a technical fog bank.",
+          "A complete service record captures the concern, conditions, tests performed, results, and recommended next step.",
           "Repair recommendations should be tied to what was tested and observed.",
-          "A good applicant sounds trainable, precise, physically ready, and comfortable with customers.",
-          "The safest company-fit answer focuses on learning the employer's actual process during training."
+          "Photos, measurements, pressure readings, dye observations, and water-level clues can support the technical record.",
+          "If a condition may involve structural movement, electrical safety, excavation, or diving, it should be handled under approved procedure.",
+          "Follow-up verification matters after repair because the original water loss may have had more than one cause."
         ],
         thinking: [
-          "Do not over-flatter. Tie the work itself to your working style.",
-          "Ask about training, route structure, KPIs, documentation, and how repairs are handed off.",
-          "Show you understand the business outcome: diagnosis that leads to a confident next step."
+          "Document what was ruled in and what was ruled out.",
+          "Do not let a repair recommendation outrun the evidence.",
+          "A clear report should let another trained person understand the diagnostic path."
         ],
         quiz: {
-          q: "What should you connect the role to in an interview?",
-          options: ["Diagnosis, customer education, repair options, and follow-through", "Only swimming ability", "Only sales pressure"],
+          q: "What should a repair recommendation be tied to?",
+          options: ["Diagnosis, test evidence, observed conditions, and follow-up verification", "Only swimming ability", "Only sales pressure"],
           answer: 0,
-          why: "The role sits at the intersection of technical diagnosis and customer trust."
+          why: "A technical recommendation should be grounded in observed conditions and test evidence."
         },
         visual: "business"
       },
       {
-        title: "Interview Vocabulary and Answers",
+        title: "Technical Vocabulary and Field Review",
         time: "10 min",
-        badge: "Performance",
-        summary: "The final step is sounding natural. Use trade terms accurately, then connect them to how you think and work.",
-        phrase: "Leak detection appeals to me because it is hands-on diagnostic work with a customer-service component: find the root cause, explain it clearly, and help the customer move toward a solution.",
+        badge: "Review",
+        summary: "This review consolidates the technical vocabulary used throughout the course. The goal is accurate terminology and clear distinctions between systems, tests, and repair categories.",
+        phrase: "Use technical vocabulary to make the diagnosis clearer: suction side, pressure side, structural leak, plumbing leak, equipment leak, shell defect, and finish defect.",
         bullets: [
           "Core terms: leak detection, pressure testing, dye testing, plumbing isolation, return line, suction line, skimmer, main drain, equipment pad, structural leak, evaporation loss, gunite, delamination, spall, and startup.",
-          "Use vocabulary only when it helps. Forced jargon sounds worse than plain English.",
-          "Prepare one answer for interest, one for customer conflict, one for learning a new trade, and one for physical field work.",
-          "Ask smart questions: What does training look like? What makes a new technician successful? How are findings documented? What KPIs matter?",
-          "Close by sounding ready to learn: systematic, customer-aware, and coachable."
+          "Core repair terms: gunite, shotcrete, shell, substrate, delamination, spall, bond failure, plaster, finish, patch, resurfacing, and startup.",
+          "Suction-side issues occur before the pump; pressure-side issues occur after the pump.",
+          "Structural/shell issues and finish/plaster issues can look similar at first, but they often require different repair paths.",
+          "A useful technical explanation connects symptom, test, finding, and recommendation."
         ],
         thinking: [
-          "Memorize phrases, not speeches.",
-          "Pause before technical answers so you sound thoughtful.",
-          "Connect your past experience to the diagnostic and customer parts of the job."
+          "Use terminology only when it makes the explanation more precise.",
+          "Separate leak detection language from repair language.",
+          "Review the diagnostic sequence before drawing a conclusion."
         ],
         quiz: {
-          q: "Which answer best frames interest in the position?",
-          options: ["It combines problem-solving, field work, and customer communication.", "I heard pools are easy.", "I do not like talking to customers."],
+          q: "Which statement best summarizes the technical workflow?",
+          options: ["Confirm the symptom, test likely causes, document the finding, and recommend the next technical step.", "Guess based on the first visible mark.", "Ignore documentation once a leak is suspected."],
           answer: 0,
-          why: "That answer maps to the actual role: diagnostics plus people."
+          why: "The technical workflow connects confirmation, testing, documentation, and recommendation."
         },
         visual: "vocab"
       }
@@ -1686,7 +1748,10 @@
       ["Gunite", "A pneumatically applied concrete material commonly used to form reinforced pool shells."],
       ["Delamination", "A bond or layer failure where finish material separates from itself or the substrate."],
       ["Spall", "A lifted or broken-away upper finish layer, often related to bond, impact, drying, or chemistry issues."],
-      ["Startup", "The early care period after plastering when fill, brushing, water balance, and dust control protect the finish."]
+      ["Startup", "The early care period after plastering when fill, brushing, water balance, and dust control protect the finish."],
+      ["Bonding", "Connecting conductive pool parts together to reduce voltage differences."],
+      ["Grounding", "Providing a fault path back to the electrical system grounding point."],
+      ["GFCI", "Ground-fault protection that trips when current leaks from the intended path."]
     ];
 
     const quizQuestions = modules.map((module, index) => ({
@@ -1699,16 +1764,16 @@
       skimmer: ["Prioritize skimmer testing.", "If the water level drops to the skimmer and slows, the skimmer throat, face, or related suction line becomes a strong suspect."],
       returns: ["Think suction-side air or return plumbing clues.", "Bubbles at returns can be a clue that air is entering the system, often before the pump. The next step is careful equipment and line isolation, not guessing."],
       light: ["Check the light niche and conduit carefully.", "If loss slows near the light, the niche or conduit can be a suspect. This area needs safety-aware procedure and proper training."],
-      rain: ["Confirm with a bucket test.", "Hot, windy weather can cause real evaporation. I would avoid jumping to a leak conclusion without a bucket test or other confirmation."],
+      rain: ["Account for weather and confirm with faster evidence.", "Hot, windy weather can cause real evaporation. On a route call, I would combine customer history, visible inspection, water-level clues, equipment checks, and targeted testing before calling it a leak."],
       openCrack: ["Treat as leak plus shell concern.", "An open crack with water movement is not only a dye-test target. I would also think about whether the crack reflects shell movement and should be escalated under company repair procedure."],
       hollowFinish: ["Think finish bond issue.", "A hollow-sounding or popped-off finish area points toward delamination, debonding, or spalling. The repair conversation is about prep, bond, patch limits, color match, and whether the issue is isolated or widespread."]
     };
 
     const scripts = {
-      problem: "What interests me is the diagnostic side of the work. A pool leak is not always obvious, so the technician has to confirm the problem, isolate whether it is structural or plumbing, test likely areas, and verify the finding before recommending a repair.",
-      customer: "I like that this role is not just technical. The customer is usually frustrated or confused, so a good technician has to explain what was tested, what the result means, and what the next step is in plain language.",
-      operations: "My operations background helps because leak detection seems to reward process. You follow a sequence, document findings, communicate clearly, and move the customer toward a practical repair decision.",
-      training: "I am not walking in pretending to be a leak expert. What I can bring is curiosity, reliability, customer communication, and a willingness to learn the diagnostic process the right way."
+      problem: "I would explain the sequence as: first identify the symptom, then inspect visible clues, then isolate likely systems, then verify the finding before recommending a repair.",
+      customer: "I would tell the customer what was tested, what was observed, what the result means, and what the next technical step is, using plain language instead of vague repair language.",
+      operations: "A repair recommendation should connect directly to evidence: concern, conditions, tests performed, result, likely cause, recommended next step, and follow-up verification.",
+      training: "If the concern involves electrical components, diving, excavation, structural movement, or unsafe conditions, the correct explanation is that the work needs approved procedure or qualified evaluation before proceeding."
     };
 
     const state = {
@@ -1719,6 +1784,11 @@
       flashFlipped: false,
       flashSeen: Number(localStorage.getItem("pl-flash-seen") || 0)
     };
+    state.currentModule = Math.min(Math.max(state.currentModule, 0), modules.length - 1);
+    state.completed = state.completed.filter(index => Number.isInteger(index) && index >= 0 && index < modules.length);
+    state.quizAnswers = Object.fromEntries(
+      Object.entries(state.quizAnswers).filter(([index]) => Number(index) >= 0 && Number(index) < quizQuestions.length)
+    );
 
     const moduleList = document.getElementById("moduleList");
     const moduleStage = document.getElementById("moduleStage");
@@ -1808,36 +1878,20 @@
         return `<div class="hotspot-grid">${spots.map(spot => `<div class="hotspot"><small>${spot[0]}</small><strong>${spot[1]}</strong><p>${spot[2]}</p></div>`).join("")}</div>`;
       }
 
-      if (type === "bucket") {
-        return `
-          <div class="content-grid">
-            <div class="lesson-block">
-              <h3><i data-lucide="clipboard-check" class="icon" aria-hidden="true"></i>Procedure</h3>
-              <ul class="lesson-list">
-                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Fill the pool to normal level and turn off autofill.</span></li>
-                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Place bucket on a step with pool water inside.</span></li>
-                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Mark inside bucket level and outside pool level.</span></li>
-                <li><i data-lucide="check" class="icon" aria-hidden="true"></i><span>Compare after about 24 hours; restart after rain.</span></li>
-              </ul>
-            </div>
-            <div class="callout gold">
-              <strong>Interview signal</strong>
-              <p>Mentioning the bucket test early says you understand the difference between confirming a leak and locating it.</p>
-            </div>
-          </div>`;
-      }
-
       const cards = {
         loss: ["Leak or weather?", "A good technician does not let the customer story become the diagnosis. The first move is to confirm abnormal loss."],
         dye: ["Still water matters", "Dye testing is about watching movement. If water is moving for another reason, the clue gets noisy."],
         pressure: ["Gauge logic", "A sealed line that holds pressure is likely good under test. A dropping gauge points to a leak or setup issue."],
         customer: ["Bad vs. good", "Bad: You need repairs. Good: I pressure tested the return line, saw pressure loss, isolated the line, and recommend locating and repairing that line."],
         business: ["Business outcome", "The visit should move from diagnosis to confident repair options, not just a mysterious finding."],
+        anatomy: ["Water path", "Main drain and skimmer feed the pump; the pump pushes water through filter, heater, sanitizer, and return lines."],
+        construction: ["Pool type matters", "Concrete/gunite, fiberglass, vinyl liner, and above-ground pools have different likely leak points and repair expectations."],
+        electrical: ["Stop and escalate", "Pool lights, junction boxes, bonding, grounding, and GFCI issues are safety concerns before they are repair tasks."],
         shellRepair: ["Shell versus surface", "A concrete or gunite crack can be a leak symptom and a structural clue. Repair thinking starts by deciding what layer has failed."],
         finishRepair: ["Prep, bond, cure", "Pool finish repair depends on clean sound substrate, compatible material, proper bonding, realistic color expectations, and startup care."],
         vocab: ["Use terms naturally", "Vocabulary should make you clearer, not louder. Explain suction, return, structure, finish, and plumbing in plain language."]
       };
-      const card = cards[type] || ["Core concept", "Review the module notes and practice the interview phrase."];
+      const card = cards[type] || ["Core concept", "Review the module notes and practice the customer-facing explanation."];
       return `<div class="callout"><strong>${card[0]}</strong><p>${card[1]}</p></div>`;
     }
 
@@ -1923,9 +1977,9 @@
 
       if (quizDone === 0) {
         quizMessage.textContent = "Answer the quiz to see your readiness.";
-      } else if (quizCorrect >= 10) {
-        quizMessage.textContent = "Strong interview footing. Keep the answer builder warm.";
-      } else if (quizCorrect >= 7) {
+      } else if (quizCorrect >= 12) {
+        quizMessage.textContent = "Strong technical footing. Keep practicing customer explanations.";
+      } else if (quizCorrect >= 8) {
         quizMessage.textContent = "Good start. Review the missed concepts once more.";
       } else {
         quizMessage.textContent = "Stay with the modules. The structure will click.";
@@ -1961,18 +2015,23 @@
       });
     }
 
-    function evaluateBucket() {
-      const pool = Number(document.getElementById("poolLoss").value || 0);
-      const bucket = Number(document.getElementById("bucketLoss").value || 0);
-      const extra = Math.max(0, pool - bucket);
-      const result = document.getElementById("bucketResult");
-      if (pool < bucket) {
-        result.innerHTML = "<strong>Check your measurements.</strong>The bucket should not usually lose more than the pool unless the setup, mark, weather, or bucket changed.";
-      } else if (extra >= 0.125) {
-        result.innerHTML = `<strong>Likely leak signal.</strong>The pool lost ${extra.toFixed(3).replace(/0+$/, "").replace(/\.$/, "")} inches more than the bucket. Say: the bucket accounts for evaporation, so the extra pool drop points toward a leak.`;
-      } else {
-        result.innerHTML = "<strong>Likely evaporation.</strong>The pool and bucket are close. I would avoid promising a leak without more evidence.";
-      }
+    function evaluateWaterLoss() {
+      const pattern = document.getElementById("lossPattern").value;
+      const clue = document.getElementById("visibleClue").value;
+      const result = document.getElementById("waterLossResult");
+      const patternText = {
+        constant: "Steady loss suggests you should compare weather, autofill, visible shell points, equipment, and plumbing isolation instead of relying on one clue.",
+        pumpOn: "Loss that appears worse with the pump running can point toward pressure-side plumbing, return fittings, equipment leaks, or water features.",
+        pumpOff: "Loss that appears worse with the pump off can point toward static shell leaks, fittings, lights, skimmers, or suction-side conditions.",
+        featureLevel: "A water level that drops to a feature and slows makes that feature a priority inspection area."
+      };
+      const clueText = {
+        none: "With no visible clue, prioritize customer history, water-level behavior, equipment inspection, and targeted isolation.",
+        equipment: "Visible water at the equipment pad should be checked before assuming an underground or shell leak.",
+        bubbles: "Air bubbles or poor prime can point toward suction-side air entry, lid/seal issues, valves, or suction plumbing.",
+        crack: "A crack, fitting, light, or skimmer concern is a candidate for close visual inspection and dye confirmation when conditions are still."
+      };
+      result.innerHTML = `<strong>Route-practical read.</strong>${patternText[pattern]} ${clueText[clue]}`;
     }
 
     function evaluateTriage() {
@@ -2008,7 +2067,7 @@
     function renderScript() {
       const value = document.getElementById("answerFocus").value;
       document.getElementById("scriptOutput").innerHTML = `
-        <p>Draft answer</p>
+        <p>Customer-facing explanation</p>
         <strong>${scripts[value]}</strong>
       `;
     }
@@ -2048,7 +2107,7 @@
       renderQuiz();
       renderFlashcard();
       renderScript();
-      evaluateBucket();
+      evaluateWaterLoss();
       evaluateTriage();
       updateProgress();
       refreshIcons();
@@ -2062,8 +2121,8 @@
     });
     document.getElementById("markCurrent").addEventListener("click", markCurrentComplete);
     document.getElementById("resetProgress").addEventListener("click", resetProgress);
-    document.getElementById("poolLoss").addEventListener("input", evaluateBucket);
-    document.getElementById("bucketLoss").addEventListener("input", evaluateBucket);
+    document.getElementById("lossPattern").addEventListener("change", evaluateWaterLoss);
+    document.getElementById("visibleClue").addEventListener("change", evaluateWaterLoss);
     document.getElementById("symptomSelect").addEventListener("change", evaluateTriage);
     document.getElementById("prevFlash").addEventListener("click", () => moveFlash(-1));
     document.getElementById("nextFlash").addEventListener("click", () => moveFlash(1));
