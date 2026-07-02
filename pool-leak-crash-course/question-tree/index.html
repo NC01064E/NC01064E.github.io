@@ -701,11 +701,18 @@
     @media (max-width: 720px) {
       .topbar {
         position: static;
+        flex-direction: column;
         align-items: flex-start;
+        gap: 10px;
       }
 
       .top-actions {
+        width: 100%;
         justify-content: flex-start;
+      }
+
+      .top-actions .text-button {
+        flex: 1 1 0;
       }
 
       .app-shell {
