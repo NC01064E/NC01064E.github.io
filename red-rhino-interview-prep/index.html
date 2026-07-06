@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Interactive final interview prep with Q&A flashcards, phrase memorization, and mock interview drills.">
+  <link rel="canonical" href="https://cerbone.me/red-rhino-interview-prep/">
+  <title>Final Interview Prep</title>
+  <style>
+    :root {
+      --ink: #17201f;
+      --muted: #5b6764;
+      --soft: #f6f4ed;
+      --paper: #fffdf7;
+      --line: #d9d3c3;
+      --red: #b3261e;
+      --red-dark: #7f1d18;
+      --teal: #0f766e;
+      --blue: #245b7a;
+      --gold: #b7791f;
+      --green: #277041;
+      --charcoal: #222826;
+      --shadow: 0 18px 48px rgba(23, 32, 31, 0.12);
+      --radius: 8px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--soft);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    button,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 68px;
+      padding: 12px clamp(16px, 4vw, 44px);
+      background: rgba(255, 253, 247, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      color: var(--paper);
+      background: var(--red);
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-weight: 800;
+    }
+
+    .brand-title {
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .top-actions,
+    .button-row,
+    .tabs,
+    .pill-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .top-actions {
+      justify-content: flex-end;
+    }
+
+    .text-button,
+    .icon-button,
+    .tab-button,
+    .choice-button,
+    .pill-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-button {
+      width: 38px;
+      padding: 0;
+    }
+
+    .text-button.primary,
+    .choice-button.primary,
+    .tab-button.active,
+    .pill-button.active {
+      color: var(--paper);
+      background: var(--red);
+      border-color: var(--red);
+      font-weight: 800;
+    }
+
+    .text-button.secondary {
+      color: var(--paper);
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+
+    .text-button:hover,
+    .icon-button:hover,
+    .tab-button:hover,
+    .choice-button:hover,
+    .pill-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--ink);
+    }
+
+    .text-button:focus-visible,
+    .icon-button:focus-visible,
+    .tab-button:focus-visible,
+    .choice-button:focus-visible,
+    .pill-button:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(15, 118, 110, 0.28);
+      outline-offset: 2px;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+
+    .app-shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(18px, 4vw, 44px);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .main-grid {
+      grid-template-columns: minmax(0, 1.2fr) minmax(330px, 0.8fr);
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main,
+    .hero-side,
+    .tool-panel,
+    .memory-panel,
+    .review-panel,
+    .bank-panel {
+      padding: clamp(18px, 3vw, 34px);
+    }
+
+    .hero-main {
+      min-height: 380px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--red-dark);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: clamp(2.3rem, 5.2vw, 5.2rem);
+      line-height: 0.98;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2.35rem);
+    }
+
+    h3 {
+      font-size: 1.04rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .intro-copy {
+      max-width: 760px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .hero-actions {
+      margin-top: 22px;
+    }
+
+    .countdown-grid,
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .count-box,
+    .metric-box {
+      min-height: 92px;
+      padding: 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .count-box strong,
+    .metric-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.85rem;
+      line-height: 1;
+    }
+
+    .count-box span,
+    .metric-box span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .focus-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .focus-chip {
+      min-height: 100px;
+      padding: 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .focus-chip strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .focus-chip span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .tabs {
+      margin-bottom: 14px;
+    }
+
+    .tab-button {
+      min-height: 40px;
+      font-weight: 800;
+    }
+
+    .deck-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .deck-toolbar select {
+      min-height: 40px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .flashcard {
+      position: relative;
+      min-height: 420px;
+      padding: clamp(20px, 4vw, 34px);
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.09), rgba(179, 38, 30, 0.04)),
+        var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .badge.teal {
+      background: var(--teal);
+    }
+
+    .badge.gold {
+      background: var(--gold);
+    }
+
+    .badge.red {
+      background: var(--red);
+    }
+
+    .flash-question {
+      max-width: 820px;
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      line-height: 1.02;
+    }
+
+    .flash-answer {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .answer-block {
+      padding: 16px;
+      background: rgba(255, 253, 247, 0.74);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .answer-block strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink);
+    }
+
+    .answer-block p,
+    .answer-block li {
+      color: var(--muted);
+    }
+
+    .answer-block ul {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .card-actions {
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .tool-panel[hidden],
+    .memory-panel[hidden],
+    .review-panel[hidden] {
+      display: none;
+    }
+
+    .memory-card {
+      display: grid;
+      gap: 16px;
+      min-height: 420px;
+      padding: clamp(20px, 4vw, 34px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .phrase-display {
+      padding: 18px;
+      background: var(--charcoal);
+      color: var(--paper);
+      border-radius: 8px;
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 800;
+      line-height: 1.18;
+    }
+
+    .phrase-display span {
+      display: inline-block;
+      min-width: 78px;
+      margin: 0 4px;
+      border-bottom: 2px solid rgba(255, 253, 247, 0.65);
+      color: transparent;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 132px;
+      resize: vertical;
+      padding: 14px;
+      color: var(--ink);
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .score-bar {
+      position: relative;
+      height: 12px;
+      overflow: hidden;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .score-fill {
+      width: 0;
+      height: 100%;
+      background: var(--teal);
+      transition: width 0.2s ease;
+    }
+
+    .score-copy {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .review-card {
+      padding: 16px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .review-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .review-card p,
+    .review-card li {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .review-card ul {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .must-say {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .must-say-item {
+      padding: 13px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .must-say-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .must-say-item span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .drill-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .drill-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 11px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .drill-index {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      max-width: min(360px, calc(100vw - 36px));
+      padding: 12px 14px;
+      color: var(--paper);
+      background: var(--charcoal);
+      border-radius: 7px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .focus-strip,
+      .review-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-main {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        position: static;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .top-actions .text-button {
+        flex: 1 1 0;
+      }
+
+      .app-shell {
+        padding: 14px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .tool-panel,
+      .memory-panel,
+      .review-panel,
+      .bank-panel {
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 11vw, 3.2rem);
+      }
+
+      .countdown-grid,
+      .metric-grid,
+      .focus-strip,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flashcard,
+      .memory-card {
+        min-height: auto;
+      }
+
+      .card-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">NC</div>
+      <div>
+        <p class="brand-title">Final Interview Prep</p>
+        <p class="brand-subtitle">Q&A flashcards and phrase memorization</p>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="Prep actions">
+      <button class="text-button" type="button" id="shuffleTop"><i data-lucide="shuffle" class="icon" aria-hidden="true"></i>Shuffle</button>
+      <button class="text-button secondary" type="button" id="resetProgress"><i data-lucide="rotate-ccw" class="icon" aria-hidden="true"></i>Reset</button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="grid hero-grid" aria-labelledby="page-title">
+      <div class="panel hero-main">
+        <p class="eyebrow">Wednesday 8:00 AM - Keegan & Joel</p>
+        <h1 id="page-title">Sound calm, coachable, and ready to learn the process.</h1>
+        <p class="intro-copy">The answer bank centers on process first, customer trust, realistic expectations, and production through mastery.</p>
+        <div class="button-row hero-actions">
+          <button class="text-button primary" type="button" data-jump="flashcards"><i data-lucide="layers-3" class="icon" aria-hidden="true"></i>Start flashcards</button>
+          <button class="text-button" type="button" data-jump="phrases"><i data-lucide="brain" class="icon" aria-hidden="true"></i>Memorize phrases</button>
+        </div>
+        <div class="focus-strip" aria-label="Prep focus areas">
+          <div class="focus-chip"><strong>Process</strong><span>Master the standard before optimizing speed.</span></div>
+          <div class="focus-chip"><strong>Customer</strong><span>Educate before recommending.</span></div>
+          <div class="focus-chip"><strong>Character</strong><span>Integrity, humility, selflessness.</span></div>
+          <div class="focus-chip"><strong>Production</strong><span>Earn pace through accuracy and organization.</span></div>
+        </div>
+      </div>
+
+      <aside class="panel hero-side">
+        <p class="eyebrow">Countdown</p>
+        <h2>Final interview sprint.</h2>
+        <p class="intro-copy">Target: Wednesday, July 8, 2026 at 8:00 AM EDT.</p>
+        <div class="countdown-grid">
+          <div class="count-box"><strong id="daysLeft">0</strong><span>Days</span></div>
+          <div class="count-box"><strong id="hoursLeft">0</strong><span>Hours</span></div>
+          <div class="count-box"><strong id="cardsKnown">0</strong><span>Flashcards known</span></div>
+          <div class="count-box"><strong id="phrasesKnown">0</strong><span>Phrases memorized</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid main-grid">
+      <div class="panel tool-panel" id="flashcards">
+        <div class="tabs" role="tablist" aria-label="Prep modes">
+          <button class="tab-button active" type="button" data-mode="cards"><i data-lucide="layers-3" class="icon" aria-hidden="true"></i>Q&A Cards</button>
+          <button class="tab-button" type="button" data-mode="phrases"><i data-lucide="text-cursor-input" class="icon" aria-hidden="true"></i>Phrase Recall</button>
+          <button class="tab-button" type="button" data-mode="mock"><i data-lucide="mic" class="icon" aria-hidden="true"></i>Mock Mode</button>
+        </div>
+
+        <section id="cardsMode">
+          <div class="deck-toolbar">
+            <div>
+              <p class="eyebrow">Q&A flashcards</p>
+              <h2>Answer from the spine, not a script.</h2>
+            </div>
+            <select id="categoryFilter" aria-label="Filter flashcards by category"></select>
+          </div>
+
+          <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Flip current flashcard">
+            <div class="card-meta">
+              <span class="badge teal" id="cardCategory">Category</span>
+              <span class="badge" id="cardNumber">1 / 1</span>
+              <span class="badge gold" id="cardStatus">Needs drill</span>
+            </div>
+            <h2 class="flash-question" id="cardQuestion"></h2>
+            <div class="flash-answer" id="cardAnswer" hidden></div>
+          </article>
+
+          <div class="button-row card-actions">
+            <div class="button-row">
+              <button class="text-button" type="button" id="prevCard"><i data-lucide="chevron-left" class="icon" aria-hidden="true"></i>Prev</button>
+              <button class="text-button" type="button" id="flipCard"><i data-lucide="refresh-cw" class="icon" aria-hidden="true"></i>Flip</button>
+              <button class="text-button" type="button" id="nextCard">Next<i data-lucide="chevron-right" class="icon" aria-hidden="true"></i></button>
+            </div>
+            <div class="button-row">
+              <button class="text-button" type="button" id="needsDrill"><i data-lucide="repeat-2" class="icon" aria-hidden="true"></i>Needs drill</button>
+              <button class="text-button primary" type="button" id="markKnown"><i data-lucide="check" class="icon" aria-hidden="true"></i>Know it</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="memory-panel" id="phrasesMode" hidden>
+          <div class="deck-toolbar">
+            <div>
+              <p class="eyebrow">Phrase memorization</p>
+              <h2>Type it from memory.</h2>
+            </div>
+            <select id="phraseSelect" aria-label="Choose memorization phrase"></select>
+          </div>
+          <article class="memory-card" id="phrases">
+            <div class="card-meta">
+              <span class="badge red" id="phraseNumber">Phrase 1</span>
+              <span class="badge" id="phraseTopic">Topic</span>
+            </div>
+            <div class="phrase-display" id="phraseDisplay"></div>
+            <textarea id="phraseAttempt" placeholder="Full phrase from memory."></textarea>
+            <div class="score-bar" aria-label="Phrase match score"><div class="score-fill" id="scoreFill"></div></div>
+            <p class="score-copy" id="scoreCopy">Ready for recall.</p>
+            <div class="button-row">
+              <button class="text-button" type="button" id="checkPhrase"><i data-lucide="scan-text" class="icon" aria-hidden="true"></i>Check</button>
+              <button class="text-button" type="button" id="revealPhrase"><i data-lucide="eye" class="icon" aria-hidden="true"></i>Reveal</button>
+              <button class="text-button primary" type="button" id="memorizedPhrase"><i data-lucide="check" class="icon" aria-hidden="true"></i>Memorized</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="review-panel" id="mockMode" hidden>
+          <p class="eyebrow">Mock mode</p>
+          <h2>Practice out loud.</h2>
+          <p class="intro-copy">Strong answers stay concise, specific, and grounded in the answer spine.</p>
+          <div class="review-grid">
+            <div class="review-card">
+              <strong>Prompt</strong>
+              <p id="mockPrompt"></p>
+            </div>
+            <div class="review-card">
+              <strong>Answer spine</strong>
+              <ul id="mockSpine"></ul>
+            </div>
+          </div>
+          <div class="button-row" style="margin-top:14px;">
+            <button class="text-button primary" type="button" id="newMock"><i data-lucide="shuffle" class="icon" aria-hidden="true"></i>New prompt</button>
+            <button class="text-button" type="button" id="showMockAnswer"><i data-lucide="eye" class="icon" aria-hidden="true"></i>Show answer</button>
+          </div>
+          <div class="answer-block" id="mockAnswerBlock" style="margin-top:14px;" hidden>
+            <strong>Model answer</strong>
+            <p id="mockAnswer"></p>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-stack">
+        <section class="panel bank-panel">
+          <p class="eyebrow">Must-say themes</p>
+          <h2>Anchor phrases.</h2>
+          <div class="must-say" id="mustSay"></div>
+        </section>
+
+        <section class="panel bank-panel">
+          <p class="eyebrow">Questions for Keegan & Joel</p>
+          <h2>Ask 3-4.</h2>
+          <div class="drill-list" id="questionsForThem"></div>
+        </section>
+
+        <section class="panel bank-panel">
+          <p class="eyebrow">30-second close</p>
+          <h2>Finish clean.</h2>
+          <p class="intro-copy" id="closingStatement"></p>
+          <div class="button-row" style="margin-top:14px;">
+            <button class="text-button primary" type="button" id="copyClose"><i data-lucide="copy" class="icon" aria-hidden="true"></i>Copy close</button>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    const flashcards = [
+      {
+        category: "Core",
+        question: "Tell me about yourself.",
+        spine: ["Operations leadership", "Customer service", "Investigation", "Education", "Systems and workflow"],
+        answer: "Most of my career has centered on operations leadership, customer service, investigation, and education. I enjoy mastering systems, improving workflow, and helping people understand complex situations. This role combines technical problem solving with customer interaction, which is exactly where I believe my background fits."
+      },
+      {
+        category: "Core",
+        question: "Why Red Rhino?",
+        spine: ["Ride-along confirmed fit", "Investigation", "Customer education", "Performance", "Master the process"],
+        answer: "After the ride-along I realized this role combines investigation, customer education, and performance. I enjoy solving problems systematically, representing a respected company, and continuously improving. I am excited to master the Red Rhino process and grow into a highly productive technician."
+      },
+      {
+        category: "Core",
+        question: "Why should we hire you?",
+        spine: ["Coachable", "Respects process", "Workflow minded", "Premium brand experience", "Customer education"],
+        answer: "You should hire me because I am coachable, I respect established processes, and I naturally think in terms of workflow, organization, and continuous improvement. My background prepared me to represent a premium brand, investigate objectively, educate customers, and maintain high standards."
+      },
+      {
+        category: "Growth",
+        question: "Where do you see yourself in five years?",
+        spine: ["Trusted technician first", "Master craft", "Earn credibility", "Then responsibility"],
+        answer: "I want to become one of the company's most trusted technicians. My priority is mastering the craft first. As I earn experience, I would welcome additional responsibility, mentoring opportunities, or leadership, but only after I have earned credibility through performance."
+      },
+      {
+        category: "Training",
+        question: "How do you learn a new process?",
+        spine: ["Learn standard first", "Ask why", "Repeat consistently", "Improve only after mastery"],
+        answer: "I learn the standard first, ask questions, understand why each step exists, and repeat it consistently until it becomes second nature. Only after mastering the process do I look for ways to improve my own efficiency."
+      },
+      {
+        category: "Training",
+        question: "How do you handle being corrected?",
+        spine: ["Welcome feedback", "Prevent bad habits", "Training is the time to fix", "No ego"],
+        answer: "I welcome it. Feedback early prevents bad habits later. I would rather be corrected during training than repeat a mistake in the field."
+      },
+      {
+        category: "Customer",
+        question: "How do you handle difficult customers?",
+        spine: ["Listen first", "Acknowledge", "Educate", "Evidence, diagnosis, recommendation", "Realistic expectations"],
+        answer: "I listen first, acknowledge their concerns, and educate them. My goal is to explain the evidence, the diagnosis, the recommendation, and realistic expectations. I do not believe unrealistic expectations serve either the customer or the company."
+      },
+      {
+        category: "Customer",
+        question: "What if a customer wants a guarantee you cannot honestly give?",
+        spine: ["Be honest", "Set realistic expectations", "Long-term trust", "Protect reputation"],
+        answer: "I would be honest. I would rather set realistic expectations than overpromise. Explaining what can reasonably be expected builds long-term trust and protects the company's reputation."
+      },
+      {
+        category: "Production",
+        question: "How do you balance production with quality?",
+        spine: ["Mastery before speed", "Quality consistent first", "Workflow", "Organization", "Time management"],
+        answer: "I believe production is the result of mastering the process, not rushing the process. Once quality becomes consistent, workflow improvements, organization, and time management naturally increase production."
+      },
+      {
+        category: "Growth",
+        question: "What challenges do you expect?",
+        spine: ["Territory", "Field experience", "Accuracy first", "Then workflow", "Eliminate wasted motion"],
+        answer: "The first challenge will be learning the territory and building field experience. My operations background will shorten the learning curve, but experience cannot be rushed. I will focus on accuracy first, then workflow, routing, truck organization, and eliminating wasted motion."
+      },
+      {
+        category: "Character",
+        question: "How do you handle conflict?",
+        spine: ["Separate issue from person", "Standard", "Customer", "Desired outcome", "Own mistakes"],
+        answer: "I separate the issue from the person. I focus on the standard, the customer, and the desired outcome. If I make a mistake, I own it and correct it."
+      },
+      {
+        category: "Technical",
+        question: "Describe your investigative approach.",
+        spine: ["Assumptions are expensive", "Listen to customer", "Follow evidence", "Objective conclusions", "Leak detection fit"],
+        answer: "My experience as a catastrophic claims adjuster taught me that assumptions are expensive. I listen carefully to the customer's observations, but I follow the evidence objectively before reaching conclusions. That mindset transfers directly to leak detection."
+      },
+      {
+        category: "Core",
+        question: "What excites you about this work?",
+        spine: ["Investigation", "Customer education", "Operations", "Technical skill", "Different problem every day"],
+        answer: "It combines investigation, customer education, operations, technical skill, and continuous improvement. Every day presents a different problem to solve while representing the company's reputation."
+      },
+      {
+        category: "Reported",
+        question: "What sort of outdoor hobbies do you have?",
+        spine: ["Comfort outside", "Physical work", "Heat and water", "Positive energy"],
+        answer: "I enjoy being active and I am comfortable with outdoor, physical work. I understand this role means heat, water, tools, walking, and staying professional on a customer's property. That physical side is part of what makes the work appealing to me."
+      },
+      {
+        category: "Reported",
+        question: "Are you comfortable with the physical side of the job?",
+        spine: ["Yes", "Florida heat", "Pools", "Long route days", "Professional through fatigue"],
+        answer: "Yes. I understand this is not a desk job with occasional field visits. I am prepared for Florida heat, getting wet, working around pools, being on my feet, and keeping my customer presence steady through the day."
+      },
+      {
+        category: "Reported",
+        question: "What is your favorite song?",
+        spine: ["Answer naturally", "Keep it light", "Show personality", "Move back to fit"],
+        answer: "I would answer naturally and keep it light. The point is probably personality and culture fit, not the song itself. I would be myself, smile, and keep the tone comfortable."
+      },
+      {
+        category: "Character",
+        question: "What does character mean to you?",
+        spine: ["Who you are when unseen", "Integrity", "Humility", "Selflessness", "Customer trust"],
+        answer: "Character is who you are when no one is watching. In this role that means integrity with customers, humility while learning, and selflessness with the team. A technician's character shows up in small choices all day."
+      },
+      {
+        category: "Production",
+        question: "How would you increase production without cutting corners?",
+        spine: ["Repeatable system", "Truck organization", "Route discipline", "Clear customer communication", "Reduce wasted motion"],
+        answer: "I would first make sure my accuracy is consistent. Then I would improve production through truck organization, route discipline, clear customer communication, documentation, and eliminating wasted motion."
+      },
+      {
+        category: "Customer",
+        question: "What does a successful job look like?",
+        spine: ["Not just finding issue", "Customer understands", "Recommendation clear", "Expectations realistic", "Trust preserved"],
+        answer: "A successful job is not just finding the issue or completing the repair. It is making sure the customer understands the diagnosis, understands the recommendation, and has realistic expectations about the finished result."
+      },
+      {
+        category: "Close",
+        question: "Give your 30-second closing statement.",
+        spine: ["Systematic investigation", "Customer education", "Continuous improvement", "Coachable", "Learn the way"],
+        answer: "I am excited because this role fits how I naturally work: systematic investigation, customer education, continuous improvement, and representing a company professionally. I know there is a great deal to learn technically, but I am coachable and disciplined. My goal is to learn the Red Rhino way, protect the customer experience, and earn increased production through mastery."
+      }
+    ];
+
+    const phrases = [
+      {
+        topic: "Production",
+        text: "Production is the result of mastering the process, not rushing the process.",
+        blanks: ["Production", "mastering", "process", "rushing"]
+      },
+      {
+        topic: "Expectations",
+        text: "Unrealistic expectations serve neither the customer nor the company.",
+        blanks: ["Unrealistic", "expectations", "customer", "company"]
+      },
+      {
+        topic: "Reputation",
+        text: "Every customer interaction either strengthens or weakens the company's reputation.",
+        blanks: ["customer", "strengthens", "weakens", "reputation"]
+      },
+      {
+        topic: "Training",
+        text: "Feedback early prevents bad habits later.",
+        blanks: ["Feedback", "prevents", "bad", "habits"]
+      },
+      {
+        topic: "Investigation",
+        text: "Assumptions are expensive, so I follow the evidence before reaching conclusions.",
+        blanks: ["Assumptions", "evidence", "reaching", "conclusions"]
+      },
+      {
+        topic: "Conflict",
+        text: "I separate the issue from the person and focus on the standard, the customer, and the desired outcome.",
+        blanks: ["issue", "person", "standard", "customer"]
+      },
+      {
+        topic: "Growth",
+        text: "I want to master the craft first and earn credibility through performance.",
+        blanks: ["master", "craft", "earn", "credibility"]
+      },
+      {
+        topic: "Customer",
+        text: "Educate before recommending.",
+        blanks: ["Educate", "recommending"]
+      },
+      {
+        topic: "Close",
+        text: "Learn the Red Rhino way, protect the customer experience, and earn increased production through mastery.",
+        blanks: ["learn", "protect", "production", "mastery"]
+      }
+    ];
+
+    const questionsForThem = [
+      "What separates your best new technicians from the average?",
+      "What should I master during my first 30 days?",
+      "How do your top technicians balance production with customer education?",
+      "What habits do you want new technicians to avoid?",
+      "How is success measured after training?",
+      "If selected, what should I study before day one?"
+    ];
+
+    const mustSay = [
+      ["Process first", "I want to learn the standard before trying to optimize anything."],
+      ["Customer trust", "I should educate before recommending and avoid overpromising."],
+      ["Production through mastery", "Speed comes from accuracy, organization, and repetition."],
+      ["Coachable", "Correction is useful because it prevents bad habits."],
+      ["Investigation", "Listen to the customer, but follow evidence objectively."]
+    ];
+
+    const closeText = "I am excited because this role fits how I naturally work: systematic investigation, customer education, continuous improvement, and representing a company professionally. I know there is a great deal to learn technically, but I am coachable and disciplined. My goal is to learn the Red Rhino way, protect the customer experience, and earn increased production through mastery.";
+
+    const state = {
+      mode: "cards",
+      currentCard: Number(localStorage.getItem("rr-current-card") || 0),
+      currentPhrase: Number(localStorage.getItem("rr-current-phrase") || 0),
+      flipped: false,
+      filter: "All",
+      knownCards: JSON.parse(localStorage.getItem("rr-known-cards") || "[]"),
+      knownPhrases: JSON.parse(localStorage.getItem("rr-known-phrases") || "[]"),
+      mockIndex: 0
+    };
+
+    const cardQuestion = document.getElementById("cardQuestion");
+    const cardAnswer = document.getElementById("cardAnswer");
+    const cardCategory = document.getElementById("cardCategory");
+    const cardNumber = document.getElementById("cardNumber");
+    const cardStatus = document.getElementById("cardStatus");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const phraseSelect = document.getElementById("phraseSelect");
+    const phraseDisplay = document.getElementById("phraseDisplay");
+    const phraseAttempt = document.getElementById("phraseAttempt");
+    const scoreFill = document.getElementById("scoreFill");
+    const scoreCopy = document.getElementById("scoreCopy");
+    const toast = document.getElementById("toast");
+
+    function filteredCards() {
+      return state.filter === "All" ? flashcards : flashcards.filter(card => card.category === state.filter);
+    }
+
+    function currentCardId() {
+      const card = filteredCards()[state.currentCard] || filteredCards()[0];
+      return flashcards.indexOf(card);
+    }
+
+    function save() {
+      localStorage.setItem("rr-current-card", String(currentCardId()));
+      localStorage.setItem("rr-current-phrase", String(state.currentPhrase));
+      localStorage.setItem("rr-known-cards", JSON.stringify(state.knownCards));
+      localStorage.setItem("rr-known-phrases", JSON.stringify(state.knownPhrases));
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function normalize(text) {
+      return text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function renderCategoryFilter() {
+      const categories = ["All", ...new Set(flashcards.map(card => card.category))];
+      categoryFilter.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join("");
+      categoryFilter.value = state.filter;
+    }
+
+    function renderCard() {
+      const cards = filteredCards();
+      if (state.currentCard >= cards.length) state.currentCard = 0;
+      if (state.currentCard < 0) state.currentCard = cards.length - 1;
+      const card = cards[state.currentCard];
+      const id = flashcards.indexOf(card);
+      const known = state.knownCards.includes(id);
+      cardQuestion.textContent = card.question;
+      cardCategory.textContent = card.category;
+      cardNumber.textContent = `${state.currentCard + 1} / ${cards.length}`;
+      cardStatus.textContent = known ? "Known" : "Needs drill";
+      cardStatus.className = known ? "badge teal" : "badge gold";
+      cardAnswer.hidden = !state.flipped;
+      cardAnswer.innerHTML = `
+        <div class="answer-block">
+          <strong>Answer spine</strong>
+          <ul>${card.spine.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </div>
+        <div class="answer-block">
+          <strong>Practice answer</strong>
+          <p>${escapeHtml(card.answer)}</p>
+        </div>
+      `;
+      save();
+      refreshMetrics();
+      refreshIcons();
+    }
+
+    function moveCard(delta) {
+      const cards = filteredCards();
+      state.currentCard = (state.currentCard + delta + cards.length) % cards.length;
+      state.flipped = false;
+      renderCard();
+    }
+
+    function shuffleCard() {
+      const cards = filteredCards();
+      state.currentCard = Math.floor(Math.random() * cards.length);
+      state.flipped = false;
+      renderCard();
+      showToast("Card shuffled.");
+    }
+
+    function setKnown(known) {
+      const id = currentCardId();
+      state.knownCards = known
+        ? [...new Set([...state.knownCards, id])]
+        : state.knownCards.filter(item => item !== id);
+      renderCard();
+    }
+
+    function renderPhrases() {
+      phraseSelect.innerHTML = phrases.map((phrase, index) => `<option value="${index}">${index + 1}. ${phrase.topic}</option>`).join("");
+      phraseSelect.value = String(state.currentPhrase);
+      renderPhrase();
+    }
+
+    function renderPhrase() {
+      const phrase = phrases[state.currentPhrase];
+      const hidden = phrase.text.split(/(\b[\w']+\b)/).map(part => {
+        const shouldBlank = phrase.blanks.some(blank => blank.toLowerCase() === part.toLowerCase());
+        return shouldBlank ? "<span>blank</span>" : escapeHtml(part);
+      }).join("");
+      document.getElementById("phraseNumber").textContent = `Phrase ${state.currentPhrase + 1} / ${phrases.length}`;
+      document.getElementById("phraseTopic").textContent = phrase.topic;
+      phraseDisplay.innerHTML = hidden;
+      phraseAttempt.value = "";
+      scoreFill.style.width = "0%";
+      scoreCopy.textContent = "Ready for recall.";
+      save();
+      refreshMetrics();
+      refreshIcons();
+    }
+
+    function checkPhrase() {
+      const phrase = phrases[state.currentPhrase].text;
+      const targetWords = normalize(phrase).split(" ");
+      const attemptWords = normalize(phraseAttempt.value).split(" ").filter(Boolean);
+      const targetSet = new Set(targetWords);
+      const matched = attemptWords.filter(word => targetSet.has(word)).length;
+      const orderBonus = targetWords.reduce((sum, word, index) => sum + (attemptWords[index] === word ? 1 : 0), 0);
+      const score = Math.min(100, Math.round(((matched / targetWords.length) * 70) + ((orderBonus / targetWords.length) * 30)));
+      scoreFill.style.width = `${score}%`;
+      scoreCopy.textContent = score >= 90 ? "Strong recall. Say it out loud once." : score >= 70 ? "Close. Tighten exact wording." : "Needs another pass. Reveal, read, hide, repeat.";
+      if (score >= 90) markPhraseKnown();
+    }
+
+    function revealPhrase() {
+      phraseDisplay.textContent = phrases[state.currentPhrase].text;
+      phraseAttempt.value = phrases[state.currentPhrase].text;
+      scoreFill.style.width = "100%";
+      scoreCopy.textContent = "Full phrase revealed.";
+    }
+
+    function markPhraseKnown() {
+      state.knownPhrases = [...new Set([...state.knownPhrases, state.currentPhrase])];
+      save();
+      refreshMetrics();
+      showToast("Phrase marked memorized.");
+    }
+
+    function renderMock() {
+      const card = flashcards[state.mockIndex];
+      document.getElementById("mockPrompt").textContent = card.question;
+      document.getElementById("mockSpine").innerHTML = card.spine.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      document.getElementById("mockAnswer").textContent = card.answer;
+      document.getElementById("mockAnswerBlock").hidden = true;
+      refreshIcons();
+    }
+
+    function newMock() {
+      state.mockIndex = Math.floor(Math.random() * flashcards.length);
+      renderMock();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      document.querySelectorAll(".tab-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.mode === mode);
+      });
+      document.getElementById("cardsMode").hidden = mode !== "cards";
+      document.getElementById("phrasesMode").hidden = mode !== "phrases";
+      document.getElementById("mockMode").hidden = mode !== "mock";
+      refreshIcons();
+    }
+
+    function renderSidebars() {
+      document.getElementById("mustSay").innerHTML = mustSay.map(item => `
+        <div class="must-say-item">
+          <strong>${escapeHtml(item[0])}</strong>
+          <span>${escapeHtml(item[1])}</span>
+        </div>
+      `).join("");
+      document.getElementById("questionsForThem").innerHTML = questionsForThem.map((question, index) => `
+        <div class="drill-item">
+          <span class="drill-index">${String(index + 1).padStart(2, "0")}</span>
+          <span>${escapeHtml(question)}</span>
+        </div>
+      `).join("");
+      document.getElementById("closingStatement").textContent = closeText;
+    }
+
+    function refreshMetrics() {
+      document.getElementById("cardsKnown").textContent = state.knownCards.length;
+      document.getElementById("phrasesKnown").textContent = state.knownPhrases.length;
+    }
+
+    function updateCountdown() {
+      const target = new Date("2026-07-08T08:00:00-04:00");
+      const now = new Date();
+      const diff = Math.max(0, target - now);
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      document.getElementById("daysLeft").textContent = days;
+      document.getElementById("hoursLeft").textContent = hours;
+    }
+
+    async function copyText(text, label) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`${label} copied.`);
+      } catch (error) {
+        showToast("Copy unavailable in this browser.");
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    function resetProgress() {
+      state.knownCards = [];
+      state.knownPhrases = [];
+      state.currentCard = 0;
+      state.currentPhrase = 0;
+      state.flipped = false;
+      renderCard();
+      renderPhrase();
+      showToast("Progress reset.");
+    }
+
+    function refreshIcons() {
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    document.querySelectorAll("[data-mode]").forEach(button => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+    document.querySelectorAll("[data-jump]").forEach(button => {
+      button.addEventListener("click", () => {
+        setMode(button.dataset.jump === "phrases" ? "phrases" : "cards");
+        document.getElementById("flashcards").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    document.getElementById("flashcard").addEventListener("click", () => {
+      state.flipped = !state.flipped;
+      renderCard();
+    });
+    document.getElementById("flashcard").addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        state.flipped = !state.flipped;
+        renderCard();
+      }
+    });
+    document.getElementById("flipCard").addEventListener("click", event => {
+      event.stopPropagation();
+      state.flipped = !state.flipped;
+      renderCard();
+    });
+    document.getElementById("prevCard").addEventListener("click", event => {
+      event.stopPropagation();
+      moveCard(-1);
+    });
+    document.getElementById("nextCard").addEventListener("click", event => {
+      event.stopPropagation();
+      moveCard(1);
+    });
+    document.getElementById("markKnown").addEventListener("click", event => {
+      event.stopPropagation();
+      setKnown(true);
+    });
+    document.getElementById("needsDrill").addEventListener("click", event => {
+      event.stopPropagation();
+      setKnown(false);
+    });
+    document.getElementById("shuffleTop").addEventListener("click", shuffleCard);
+    document.getElementById("resetProgress").addEventListener("click", resetProgress);
+    categoryFilter.addEventListener("change", () => {
+      state.filter = categoryFilter.value;
+      state.currentCard = 0;
+      state.flipped = false;
+      renderCard();
+    });
+    phraseSelect.addEventListener("change", () => {
+      state.currentPhrase = Number(phraseSelect.value);
+      renderPhrase();
+    });
+    document.getElementById("checkPhrase").addEventListener("click", checkPhrase);
+    document.getElementById("revealPhrase").addEventListener("click", revealPhrase);
+    document.getElementById("memorizedPhrase").addEventListener("click", markPhraseKnown);
+    document.getElementById("newMock").addEventListener("click", newMock);
+    document.getElementById("showMockAnswer").addEventListener("click", () => {
+      document.getElementById("mockAnswerBlock").hidden = false;
+    });
+    document.getElementById("copyClose").addEventListener("click", () => copyText(closeText, "Closing statement"));
+
+    renderCategoryFilter();
+    renderPhrases();
+    renderSidebars();
+    renderCard();
+    newMock();
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+    refreshIcons();
+  </script>
+</body>
+</html>
