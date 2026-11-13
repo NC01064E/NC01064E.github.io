@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "phase-one-1b-20261113.1",
+  "generatedAt": "2026-11-13T21:34:06.000Z",
+  "baseUrl": "https://cerbone.me/roku-assets/v1/",
+  "assets": [
+    {
+      "id": "ambient.fall.foreground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/fall-foreground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/fall-foreground.png",
+      "sha256": "9831fa8e9a5c43dbb12ccbb10024db62bd39c4d40207607179d02ff102683425",
+      "bytes": 155295,
+      "contentType": "image/png",
+      "width": 960,
+      "height": 540,
+      "fallbackUri": "pkg:/images/season_fg/fall_foreground.png"
+    },
+    {
+      "id": "ambient.fall.midground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/fall-midground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/fall-midground.png",
+      "sha256": "305c18484a1b70637183b07ff2fa8be974e8960dee515be44ab1b969d451428c",
+      "bytes": 33737,
+      "contentType": "image/png",
+      "width": 480,
+      "height": 270,
+      "fallbackUri": "pkg:/images/season_bg/fall_midground.png"
+    },
+    {
+      "id": "ambient.spring.foreground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/spring-foreground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/spring-foreground.png",
+      "sha256": "40dc38b73a624b745e12c42d32fcebecb7414e54901fd413bff7b90728b6f2a6",
+      "bytes": 175465,
+      "contentType": "image/png",
+      "width": 960,
+      "height": 540,
+      "fallbackUri": "pkg:/images/season_fg/spring_foreground.png"
+    },
+    {
+      "id": "ambient.spring.midground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/spring-midground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/spring-midground.png",
+      "sha256": "ef627c40d0441c074153034fdafda0f5df0e727a55ba16ae60f0798e074d218b",
+      "bytes": 33878,
+      "contentType": "image/png",
+      "width": 480,
+      "height": 270,
+      "fallbackUri": "pkg:/images/season_bg/spring_midground.png"
+    },
+    {
+      "id": "ambient.summer.foreground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/summer-foreground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/summer-foreground.png",
+      "sha256": "f331a1c4c7b7346e1528ede3c5a7a6de997cbde84215154596355b94087c65b5",
+      "bytes": 98807,
+      "contentType": "image/png",
+      "width": 960,
+      "height": 540,
+      "fallbackUri": "pkg:/images/season_fg/summer_foreground.png"
+    },
+    {
+      "id": "ambient.summer.midground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/summer-midground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/summer-midground.png",
+      "sha256": "110b695842afbd7e7402b69c13f19cd1d96c4a78a9c22d3337ffa5bc95c83a92",
+      "bytes": 25421,
+      "contentType": "image/png",
+      "width": 480,
+      "height": 270,
+      "fallbackUri": "pkg:/images/season_bg/summer_midground.png"
+    },
+    {
+      "id": "ambient.winter.foreground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/winter-foreground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/winter-foreground.png",
+      "sha256": "93923e172ac64264761de3511b69f80569ba028c6e96764888bf2e2c74d45f61",
+      "bytes": 128698,
+      "contentType": "image/png",
+      "width": 960,
+      "height": 540,
+      "fallbackUri": "pkg:/images/season_fg/winter_foreground.png"
+    },
+    {
+      "id": "ambient.winter.midground",
+      "path": "releases/phase-one-1b-20261113.1/seasonal/ambient/winter-midground.png",
+      "url": "https://cerbone.me/roku-assets/v1/releases/phase-one-1b-20261113.1/seasonal/ambient/winter-midground.png",
+      "sha256": "d96e0de78385adfc0fb8d2e59b9f5e597525686e8ac810eca3265ce2e48e0f99",
+      "bytes": 13821,
+      "contentType": "image/png",
+      "width": 480,
+      "height": 270,
+      "fallbackUri": "pkg:/images/season_bg/winter_midground.png"
+    }
+  ]
+}
